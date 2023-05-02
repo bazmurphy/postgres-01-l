@@ -1,12 +1,12 @@
 ## 1. Logging in to the Database
 
-`<cmd> <databaseName> <username>`
+`psql <databaseName> <username>`
 
 <details>
 <summary>Terminal Output</summary>
 
 ```
-<cmd> <databaseName> <username>
+psql <databaseName> <username>
 psql postgres postgres
 password: ~enter password~
 ```
@@ -2898,6 +2898,521 @@ postgres=#
 #### 17.4
 
 - How would last month's invoices change if we gave a discount of 15%
+- `SELECT id, res_id, total * 0.85 as discount_total, invoice_date, paid FROM invoices WHERE invoice_date >= '2023-04-02';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT id, res_id, total * 0.85 as discount_total, invoice_date, paid FROM invoices WHERE invoice_date >= '2023-04-02';
+ id | res_id | discount_total | invoice_date | paid
+----+--------+----------------+--------------+------
+ 43 |     17 |       289.0000 | 2023-04-05   | t
+ 44 |     99 |       374.0000 | 2023-04-05   | t
+ 45 |     39 |       144.5000 | 2023-04-06   | t
+ 46 |     38 |        93.5000 | 2023-04-06   | t
+ 47 |     75 |       561.0000 | 2023-04-06   | t
+ 48 |     41 |       522.7500 | 2023-04-09   | t
+ 49 |    106 |       561.0000 | 2023-04-10   | t
+ 50 |      2 |       209.1000 | 2023-04-12   | t
+ 51 |     15 |        93.5000 | 2023-04-12   | t
+ 52 |     57 |       209.1000 | 2023-04-15   | t
+ 53 |     34 |        93.5000 | 2023-04-16   | t
+ 54 |     58 |        72.2500 | 2023-04-18   | t
+ 55 |     87 |        93.5000 | 2023-04-20   | t
+ 56 |      3 |       313.6500 | 2023-04-20   | t
+ 57 |    100 |       166.6000 | 2023-04-21   | t
+ 58 |     45 |       561.0000 | 2023-04-22   | t
+ 59 |     24 |       209.1000 | 2023-04-23   | t
+ 60 |     32 |        93.5000 | 2023-04-26   | t
+ 61 |     20 |       289.0000 | 2023-04-27   | t
+ 62 |     56 |       416.5000 | 2023-04-27   | t
+ 63 |     19 |       561.0000 | 2023-04-28   | t
+(21 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+#### 17.5
+
+- List all customers whose second name starts with 'M' (hint: there's a space before the second name)
+- `SELECT * FROM customers WHERE name LIKE '% M%_';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM customers WHERE name LIKE '% M%_';
+ id  |       name       |           email           |     phone     |          address           |     city      | postcode |   country
+-----+------------------+---------------------------+---------------+----------------------------+---------------+----------+-------------
+   7 | Melinda Marsh    | mel.marsh-123@gmail.com   | 070 1513 5671 | 7 Preston Road             | Oldham        | OL3 5XZ  | UK
+  20 | Julie Murphy     | julie.murphy@lrtc.net     | 0650 555 5787 | 5557 North Pendale Street  | San Francisco | 94217    | USA
+  60 | Renate Messner   | renate.messner@ebse.net   | 069-0555984   | Magazinweg 7               | Frankfurt     | 60528    | Germany
+  90 | Patricia McKenna | patricia.mckenna@eert.net | 2967 555      | 8 Johnstown Road           | Cork          |          | Ireland
+  94 | Wales MacKinlay  | wales.mackinlay@omis.net  | 64-9-3763555  | 199 Great North Road       | Auckland      |          | New Zealand
+ 104 | Maurizio Moroni  | maurizio.moroni@nqnk.net  | 0522-556555   | Strada Provinciale 124     | Reggio Emilia | 42100    | Italy
+ 107 | Rita M├╝ller     | rita.m├╝ller@gfsn.net     | 0711-555361   | Adenauerallee 900          | Stuttgart     | 70563    | Germany
+ 108 | Sarah McRoy      | sarah.mcroy@fjnn.net      | 04 499 9555   | 101 Lambton Quay, Level 11 | Wellington    |          | New Zealand
+ 115 | Roland Mendel    | roland.mendel@wclf.net    | 7675-3555     | Kirchgasse 6               | Graz          | 8010     | Austria
+ 116 | Leslie Murphy    | leslie.murphy@lbgq.net    | 2035559545    | 567 North Pendale Street   | New Haven     | 97823    | USA
+ 125 | Hanna Moos       | hanna.moos@fmga.net       | 0621-08555    | Forsterstr. 57             | Mannheim      | 68306    | Germany
+(11 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+---
+
+## 18 Using SQL Functions
+
+You can use the built-in functions of SQL just as you can in JavaScript, but note that they are different (this is true of most programming languages) but there are also differences between SQL implementations.
+
+You use functions to change values, usually of columns, wherever you can use a column, for example, in the selected list of values:
+
+```
+SELECT name, length(name) AS namelen, upper(email)
+  FROM customers;
+```
+
+This query also uses a column alias (namelen) to provide a meaningful column heading.
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT name, length(name) AS namelen, upper(email)
+postgres-#   FROM customers;
+          name           | namelen |              upper
+-------------------------+---------+----------------------------------
+ John Smith              |      10 | J.SMITH@JOHNSMITH.ORG
+ Sue Jones               |       9 | S.JONES1234@GMAIL.COM
+ Alice Evans             |      11 | ALICE.EVANS001@HOTMAIL.COM
+ Mohammed Trungpa        |      16 | MO.TRUNGPA@HOTMAIL.COM
+ Steven King             |      11 | STEVE.KING123@HOTMAIL.COM
+ Nadia Sethuraman        |      16 | NADIA.SETHURAMAN@MAIL.COM
+ Melinda Marsh           |      13 | MEL.MARSH-123@GMAIL.COM
+ Mart├¡n Sommer          |      14 | MARTIN.SOMMER@DFGG.NET
+ Laurence Lebihan        |      16 | LAURENCE.LEBIHAN@XMZX.NET
+ Keith Stewart           |      13 | KEITH.STEWART@GMAIL.COM
+ Carlos Porter           |      13 | CARLOS.PORTER@ORTYNUF.COM
+ Carine Schmitt          |      14 | CARINE.SCHMITT@DFTU.NET
+ Jean King               |       9 | JEAN.KING@HJGP.NET
+ Peter Ferguson          |      14 | PETER.FERGUSON@MXNX.NET
+ Janine Labrune          |      14 | JANINE.LABRUNE@DLSH.NET
+ Jonas Bergulfsen        |      16 | JONAS.BERGULFSEN@DXBN.NET
+ Susan Nelson            |      12 | SUSAN.NELSON@FSVE.NET
+ Zbyszek Piestrzeniewicz |      23 | ZBYSZEK.PIESTRZENIEWICZ@ASKT.NET
+ Roland Keitel           |      13 | ROLAND.KEITEL@RIYS.NET
+ Julie Murphy            |      12 | JULIE.MURPHY@LRTC.NET
+ Kwai Lee                |       8 | KWAI.LEE@IMIC.NET
+ Diego Freyre            |      12 | DIEGO.FREYRE@AMYR.NET
+ Christina Berglund      |      18 | CHRISTINA.BERGLUND@CGGP.NET
+ Jytte Petersen          |      14 | JYTTE.PETERSEN@CPBN.NET
+ Mary Saveley            |      12 | MARY.SAVELEY@YPPL.NET
+ Eric Natividad          |      14 | ERIC.NATIVIDAD@SWLL.NET
+ Jeff Young              |      10 | JEFF.YOUNG@HAHH.NET
+ Kelvin Leong            |      12 | KELVIN.LEONG@MQZY.NET
+ Juri Hashimoto          |      14 | JURI.HASHIMOTO@FTTV.NET
+ Wendy Victorino         |      15 | WENDY.VICTORINO@UEAI.NET
+ Veysel Oeztan           |      13 | VEYSEL.OEZTAN@VQKN.NET
+ Keith Franco            |      12 | KEITH.FRANCO@DLHA.NET
+ Isabel de Castro        |      16 | ISABEL.DE.CASTRO@FPRO.NET
+ Martine Ranc├®          |      14 | MARTINE.RANC├®@XEQS.NET
+ Marie Bertrand          |      14 | MARIE.BERTRAND@GLUT.NET
+ Jerry Tseng             |      11 | JERRY.TSENG@ETEA.NET
+ Julie King              |      10 | JULIE.KING@YHFJ.NET
+ Mory Kentary            |      12 | MORY.KENTARY@NQFG.NET
+ Michael Frick           |      13 | MICHAEL.FRICK@JDEP.NET
+ Matti Karttunen         |      15 | MATTI.KARTTUNEN@XKIG.NET
+ Rachel Ashworth         |      15 | RACHEL.ASHWORTH@RZYB.NET
+ Dean Cassidy            |      12 | DEAN.CASSIDY@SNTJ.NET
+ Leslie Taylor           |      13 | LESLIE.TAYLOR@TUNP.NET
+ Elizabeth Devon         |      15 | ELIZABETH.DEVON@BPCB.NET
+ Yoshi Tamuri            |      12 | YOSHI.TAMURI@JUUQ.NET
+ Miguel Barajas          |      14 | MIGUEL.BARAJAS@RSYQ.NET
+ Julie Young             |      11 | JULIE.YOUNG@RMHL.NET
+ Brydey Walker           |      13 | BRYDEY.WALKER@KWTJ.NET
+ Fr├®d├®rique Citeaux    |      20 | FR├®D├®RIQUE.CITEAUX@VEKN.NET
+ Mike Gao                |       8 | MIKE.GAO@PDRV.NET
+ Eduardo Saavedra        |      16 | EDUARDO.SAAVEDRA@TIQA.NET
+ Mary Young              |      10 | MARY.YOUNG@RATM.NET
+ Horst Kloss             |      11 | HORST.KLOSS@BPZV.NET
+ Palle Ibsen             |      11 | PALLE.IBSEN@BJQN.NET
+ Jean Fresni├¿re         |      15 | JEAN.FRESNI├¿RE@UXSM.NET
+ Alejandra Camino        |      16 | ALEJANDRA.CAMINO@OMET.NET
+ Valarie Thompson        |      16 | VALARIE.THOMPSON@BRLL.NET
+ Helen Bennett           |      13 | HELEN.BENNETT@QUET.NET
+ Annette Roulet          |      14 | ANNETTE.ROULET@LGHA.NET
+ Renate Messner          |      14 | RENATE.MESSNER@EBSE.NET
+ Paolo Accorti           |      13 | PAOLO.ACCORTI@XCUW.NET
+ Daniel Da Silva         |      15 | DANIEL.DA.SILVA@HIJY.NET
+ Daniel Tonini           |      13 | DANIEL.TONINI@MXVW.NET
+ Henriette Pfalzheim     |      19 | HENRIETTE.PFALZHEIM@HMIB.NET
+ Elizabeth Lincoln       |      17 | ELIZABETH.LINCOLN@ELCT.NET
+ Peter Franken           |      13 | PETER.FRANKEN@FSZX.NET
+ Anna O'Hara             |      11 | ANNA.O"HARA@HZJW.NET
+ Giovanni Rovelli        |      16 | GIOVANNI.ROVELLI@XRBZ.NET
+ Adrian Huxley           |      13 | ADRIAN.HUXLEY@HMEP.NET
+ Marta Hernandez         |      15 | MARTA.HERNANDEZ@XQTI.NET
+ Ed Harrison             |      11 | ED.HARRISON@SVJB.NET
+ Mihael Holz             |      11 | MIHAEL.HOLZ@DNJI.NET
+ Jan Klaeboe             |      11 | JAN.KLAEBOE@MPNL.NET
+ Bradley Schuyler        |      16 | BRADLEY.SCHUYLER@STIE.NET
+ Mel Andersen            |      12 | MEL.ANDERSEN@NGGG.NET
+ Pirkko Koskitalo        |      16 | PIRKKO.KOSKITALO@RCVA.NET
+ Catherine Dewey         |      15 | CATHERINE.DEWEY@NDFT.NET
+ Steve Frick             |      11 | STEVE.FRICK@UNAM.NET
+ Wing Huang              |      10 | WING.HUANG@ROMC.NET
+ Julie Brown             |      11 | JULIE.BROWN@ZBFM.NET
+ Mike Graham             |      11 | MIKE.GRAHAM@NLPT.NET
+ Ann Brown               |       9 | ANN.BROWN@XWKB.NET
+ William Brown           |      13 | WILLIAM.BROWN@WRBO.NET
+ Ben Calaghan            |      12 | BEN.CALAGHAN@BPRQ.NET
+ Kalle Suominen          |      14 | KALLE.SUOMINEN@ACIF.NET
+ Philip Cramer           |      13 | PHILIP.CRAMER@GMLF.NET
+ Francisca Cervantes     |      19 | FRANCISCA.CERVANTES@SXXP.NET
+ Jesus Fernandez         |      15 | JESUS.FERNANDEZ@CGXS.NET
+ Brian Chandler          |      14 | BRIAN.CHANDLER@WDGI.NET
+ Patricia McKenna        |      16 | PATRICIA.MCKENNA@EERT.NET
+ Laurence Lebihan        |      16 | LAURENCE.LEBIHAN@XMZX.NET
+ Paul Henriot            |      12 | PAUL.HENRIOT@UWUA.NET
+ Armand Kuger            |      12 | ARMAND.KUGER@AXKQ.NET
+ Wales MacKinlay         |      15 | WALES.MACKINLAY@OMIS.NET
+ Karin Josephs           |      13 | KARIN.JOSEPHS@GYFV.NET
+ Juri Yoshido            |      12 | JURI.YOSHIDO@KLQB.NET
+ Dorothy Young           |      13 | DOROTHY.YOUNG@CWTG.NET
+ Lino Rodriguez          |      14 | LINO.RODRIGUEZ@XSCN.NET
+ Braun Urs               |       9 | BRAUN.URS@AOLS.NET
+ Allen Nelson            |      12 | ALLEN.NELSON@ERUO.NET
+ Pascale Cartrain        |      16 | PASCALE.CARTRAIN@OGGV.NET
+ Georg Pipps             |      11 | GEORG.PIPPS@UYVB.NET
+ Arnold Cruz             |      11 | ARNOLD.CRUZ@AWQA.NET
+ Maurizio Moroni         |      15 | MAURIZIO.MORONI@NQNK.NET
+ Akiko Shimamura         |      15 | AKIKO.SHIMAMURA@PIPL.NET
+ Dominique Perrier       |      17 | DOMINIQUE.PERRIER@BDIM.NET
+ Rita M├╝ller            |      12 | RITA.M├╝LLER@GFSN.NET
+ Sarah McRoy             |      11 | SARAH.MCROY@FJNN.NET
+ Michael Donnermeyer     |      19 | MICHAEL.DONNERMEYER@LVPK.NET
+ Maria Hernandez         |      15 | MARIA.HERNANDEZ@UZKX.NET
+ Alexander Feuer         |      15 | ALEXANDER.FEUER@HZRR.NET
+ Dan Lewis               |       9 | DAN.LEWIS@BQFI.NET
+ Martha Larsson          |      14 | MARTHA.LARSSON@ABHF.NET
+ Sue Frick               |       9 | SUE.FRICK@NPGP.NET
+ Roland Mendel           |      13 | ROLAND.MENDEL@WCLF.NET
+ Leslie Murphy           |      13 | LESLIE.MURPHY@LBGQ.NET
+ Yu Choi                 |       7 | YU.CHOI@VMPD.NET
+ Mart├¡n Sommer          |      14 | MART├¡N.SOMMER@WCOA.NET
+ Sven Ottlieb            |      12 | SVEN.OTTLIEB@DQYJ.NET
+ Violeta Benitez         |      15 | VIOLETA.BENITEZ@YQSD.NET
+ Carmen Anton            |      12 | CARMEN.ANTON@BHMY.NET
+ Sean Clenahan           |      13 | SEAN.CLENAHAN@GZYW.NET
+ Franco Ricotti          |      14 | FRANCO.RICOTTI@YCBK.NET
+ Steve Thompson          |      14 | STEVE.THOMPSON@NIRJ.NET
+ Hanna Moos              |      10 | HANNA.MOOS@FMGA.NET
+ Alexander Semenov       |      17 | ALEXANDER.SEMENOV@XGRU.NET
+ Raanan Altagar,G M      |      18 | RAANAN.ALTAGAR,G.M@MLAP.NET
+ Jos├® Pedro Roel        |      16 | JOS├®.PEDRO.ROEL@QJMK.NET
+ Rosa Salazar            |      12 | ROSA.SALAZAR@FZIK.NET
+ Sue Taylor              |      10 | SUE.TAYLOR@WLLX.NET
+ Thomas Smith            |      12 | THOMAS.SMITH@NVZE.NET
+ Valarie Franco          |      14 | VALARIE.FRANCO@QAIT.NET
+ Tony Snowden            |      12 | TONY.SNOWDEN@RZCZ.NET
+(133 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+Functions are available that operate on all different datatypes.
+
+Country names are mixed case so to make sure we always match regardless of the stored case we can use the lower function to find all customers from Manchester, UK:
+
+```
+SELECT * FROM customers
+   WHERE lower(country) = 'uk'
+     AND city = 'Manchester';
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM customers
+postgres-#    WHERE lower(country) = 'uk'
+postgres-#      AND city = 'Manchester';
+ id |       name       |           email            |     phone      |      address      |    city    | postcode | country
+----+------------------+----------------------------+----------------+-------------------+------------+----------+---------
+  3 | Alice Evans      | alice.evans001@hotmail.com | 0161 345 6789  | 3 High Road       | Manchester | m13 4ef  | UK
+  4 | Mohammed Trungpa | mo.trungpa@hotmail.com     | 0161 456 7890  | 25 Blue Road      | Manchester | M25 6GH  | UK
+  6 | Nadia Sethuraman | nadia.sethuraman@mail.com  |                | 135 Green Street  | Manchester | M10 4BG  | UK
+ 41 | Rachel Ashworth  | rachel.ashworth@rzyb.net   | (171) 555-1555 | Fauntleroy Circus | Manchester | EC2 5NT  | UK
+(4 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+Assuming room rates include VAT at 20%, list room rates after VAT increases to 23.5% (from 20%), but round to the nearest pound:
+
+```
+SELECT room_no, room_type, rate AS old_rate,
+       round(rate * 100/120 * 123.5/100) AS new_rate
+   FROM rooms;
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT room_no, room_type, rate AS old_rate,
+postgres-#        round(rate * 100/120 * 123.5/100) AS new_rate
+postgres-#    FROM rooms;
+ room_no |  room_type   | old_rate | new_rate
+---------+--------------+----------+----------
+     101 | PREMIUM      |    85.00 |       87
+     102 | PREMIUM      |    85.00 |       87
+     103 | PREMIUM      |    85.00 |       87
+     104 | PREMIUM      |    85.00 |       87
+     105 | PREMIUM      |    85.00 |       87
+     106 | PREMIUM      |    85.00 |       87
+     107 | PREMIUM      |    85.00 |       87
+     108 | PREMIUM PLUS |    98.00 |      101
+     109 | PREMIUM PLUS |    98.00 |      101
+     110 | PREMIUM PLUS |    98.00 |      101
+     111 | PREMIUM PLUS |    98.00 |      101
+     112 | PREMIUM PLUS |    98.00 |      101
+     201 | PREMIUM      |    85.00 |       87
+     202 | PREMIUM      |    85.00 |       87
+     203 | PREMIUM      |    85.00 |       87
+     204 | PREMIUM      |    85.00 |       87
+     205 | PREMIUM      |    85.00 |       87
+     206 | PREMIUM      |    85.00 |       87
+     207 | PREMIUM      |    85.00 |       87
+     208 | PREMIUM PLUS |    98.00 |      101
+     209 | PREMIUM PLUS |    98.00 |      101
+     210 | PREMIUM PLUS |    98.00 |      101
+     211 | PREMIUM PLUS |    98.00 |      101
+     212 | PREMIUM PLUS |    98.00 |      101
+     301 | PREMIER      |   110.00 |      113
+     302 | PREMIER      |   110.00 |      113
+     303 | PREMIER      |   110.00 |      113
+     304 | PREMIER      |   110.00 |      113
+     305 | PREMIER      |   110.00 |      113
+     306 | PREMIER      |   110.00 |      113
+     307 | PREMIER      |   110.00 |      113
+     308 | PREMIER PLUS |   123.00 |      127
+     309 | PREMIER PLUS |   123.00 |      127
+     310 | PREMIER PLUS |   123.00 |      127
+     311 | PREMIER PLUS |   123.00 |      127
+     312 | PREMIER PLUS |   123.00 |      127
+     401 | PREMIER      |   110.00 |      113
+     402 | PREMIER      |   110.00 |      113
+     403 | PREMIER      |   110.00 |      113
+     404 | PREMIER      |   110.00 |      113
+     405 | PREMIER      |   110.00 |      113
+     406 | PREMIER      |   110.00 |      113
+     407 | PREMIER      |   110.00 |      113
+     408 | PREMIER PLUS |   123.00 |      127
+     409 | PREMIER PLUS |   123.00 |      127
+     410 | PREMIER PLUS |   123.00 |      127
+     411 | FAMILY       |   123.00 |      127
+     412 | FAMILY       |   123.00 |      127
+(48 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+
+For further information on SQL functions see the official PostgreSQL documentation at https://www.postgresql.org/docs/current/index.html
+
+---
+
+## 19. Date and Time in SQL
+
+In SQL dates and times are held in an internal format but are represented externally (when entering values and displaying them) as strings;
+
+-Text date format: 'YYYY-MM-DD' e.g. '2018-07-21' = 21 July 2018
+-Time format: 'HH:mm:SS.ddd' e.g. '14:32'
+-Date/Time format: 'YYYY-MM-DD HH:mm:SS.ddd' e.g. '2018-07-21 15:26:04'
+
+You can perform arithmetic on dates and times, for example:
+
+```
+SELECT cust_id, room_no, checkin_date,
+       checkout_date - checkin_date AS nights
+   FROM reservations
+   WHERE checkout_date = current_date + 1;
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT cust_id, room_no, checkin_date, checkout_Date - checkin_date AS nights FROM reservations WHERE checkout_date = current_d
+ate + 2;
+ cust_id | room_no | checkin_date | nights
+---------+---------+--------------+--------
+      44 |         | 2023-04-30   |      4
+(1 row)
+
+
+postgres=#
+```
+
+</details><br>
+
+This query performs subtraction of one date from another (checkout_date - checkin_date) to calculate the number of nights the customer has stayed. It also performs addition (current_date + 1) to get tomorrow's date so that it lists all reservations that will be checking out tomorrow.
+
+Note: current_date is a postgres function that returns the current date.
+
+Also note that there are many ways to get the same result - you may explore those for yourself.
+
+You can also represent time intervals but the representations can be complicated and we shall not cover them here.
+
+---
+
+## 20. Exercise 4
+
+### 20.1
+- Write a query to check that all booking dates are before their checkin dates
+- `SELECT checkin_date, checkout_date FROM reservations WHERE checkin_date < checkout_date;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT checkin_date, checkout_date FROM reservations WHERE checkin_date < checkout_date;
+ checkin_date | checkout_date
+--------------+---------------
+ 2023-03-21   | 2023-03-24
+ 2023-04-10   | 2023-04-12
+ 2023-04-17   | 2023-04-20
+ 2023-03-23   | 2023-03-25
+ 2023-03-27   | 2023-03-30
+ 2023-03-25   | 2023-03-30
+ 2023-03-03   | 2023-03-06
+ 2023-03-16   | 2023-03-22
+ 2023-03-22   | 2023-03-23
+ 2023-03-27   | 2023-03-30
+ 2023-04-11   | 2023-04-12
+ 2023-04-01   | 2023-04-05
+ 2023-03-15   | 2023-03-17
+ 2023-04-22   | 2023-04-28
+ 2023-04-23   | 2023-04-27
+ 2023-03-21   | 2023-03-23
+ 2023-04-21   | 2023-04-23
+ 2023-03-24   | 2023-03-30
+ 2023-03-11   | 2023-03-12
+ 2023-05-24   | 2023-05-29
+ 2023-05-21   | 2023-05-24
+ 2023-06-02   | 2023-06-04
+ 2023-05-12   | 2023-05-13
+ 2023-05-04   | 2023-05-06
+ 2023-05-09   | 2023-05-13
+ 2023-05-06   | 2023-05-10
+ 2023-05-06   | 2023-05-11
+ 2023-05-24   | 2023-05-26
+ 2023-05-29   | 2023-06-01
+ 2023-05-30   | 2023-06-01
+ 2023-03-16   | 2023-03-17
+ 2023-04-25   | 2023-04-26
+ 2023-04-15   | 2023-04-16
+ 2023-03-14   | 2023-03-18
+ 2023-03-22   | 2023-03-27
+ 2023-03-07   | 2023-03-08
+ 2023-04-05   | 2023-04-06
+ 2023-04-04   | 2023-04-06
+ 2023-04-04   | 2023-04-09
+ 2023-03-03   | 2023-03-09
+ 2023-03-19   | 2023-03-24
+ 2023-04-16   | 2023-04-22
+ 2023-03-17   | 2023-03-18
+ 2023-03-23   | 2023-03-28
+ 2023-03-25   | 2023-03-30
+ 2023-03-10   | 2023-03-13
+ 2023-03-21   | 2023-03-23
+ 2023-04-22   | 2023-04-27
+ 2023-04-13   | 2023-04-15
+ 2023-04-17   | 2023-04-18
+ 2023-03-01   | 2023-03-07
+ 2023-03-23   | 2023-03-26
+ 2023-03-06   | 2023-03-07
+ 2023-03-04   | 2023-03-08
+ 2023-03-14   | 2023-03-20
+ 2023-03-01   | 2023-03-06
+ 2023-04-27   | 2023-05-02
+ 2023-03-19   | 2023-03-23
+ 2023-03-14   | 2023-03-16
+ 2023-03-31   | 2023-04-06
+ 2023-03-13   | 2023-03-15
+ 2023-04-25   | 2023-04-30
+ 2023-03-22   | 2023-03-23
+ 2023-03-16   | 2023-03-18
+ 2023-03-31   | 2023-04-01
+ 2023-04-19   | 2023-04-20
+ 2023-03-11   | 2023-03-13
+ 2023-03-21   | 2023-03-22
+ 2023-03-26   | 2023-03-29
+ 2023-03-31   | 2023-04-01
+ 2023-03-22   | 2023-03-24
+ 2023-04-01   | 2023-04-05
+ 2023-04-19   | 2023-04-21
+ 2023-03-04   | 2023-03-09
+ 2023-03-21   | 2023-03-23
+ 2023-04-04   | 2023-04-10
+ 2023-06-02   | 2023-06-04
+ 2023-06-02   | 2023-06-06
+ 2023-05-12   | 2023-05-13
+ 2023-05-05   | 2023-05-06
+ 2023-05-03   | 2023-05-09
+ 2023-05-22   | 2023-05-23
+ 2023-06-04   | 2023-06-09
+ 2023-05-17   | 2023-05-20
+ 2023-05-29   | 2023-06-02
+ 2023-05-06   | 2023-05-10
+ 2023-05-09   | 2023-05-12
+ 2023-06-04   | 2023-06-07
+ 2023-05-24   | 2023-05-27
+ 2023-05-11   | 2023-05-14
+ 2023-05-27   | 2023-06-02
+ 2023-05-11   | 2023-05-16
+ 2023-05-28   | 2023-05-30
+ 2023-05-09   | 2023-05-14
+ 2023-05-24   | 2023-05-29
+ 2023-05-09   | 2023-05-10
+ 2023-05-28   | 2023-05-31
+ 2023-05-14   | 2023-05-19
+ 2023-05-02   | 2023-05-05
+ 2023-04-30   | 2023-05-04
+ 2023-05-04   | 2023-05-08
+ 2023-06-04   | 2023-06-08
+ 2023-05-20   | 2023-05-22
+ 2023-05-13   | 2023-05-17
+ 2023-06-01   | 2023-06-07
+ 2023-05-26   | 2023-05-28
+(106 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### 20.2
+- We plan to offer a discount of 10% on all Premier and Premier Plus rooms next month. How much would we gain on each room if occupancy rose by 5 nights over the month.
 - ``
 
 <details>
@@ -2909,16 +3424,51 @@ insert here
 
 </details><br>
 
-#### 17.5
-
-- List all customers whose second name starts with 'M' (hint: there's a space before the second name)
-- ``
+### 20.3
+- List all reservations for this month and the number of nights booked.
+- `SELECT id, cust_id, room_no, (checkout_date - checkin_date) AS no_nights, no_guests, booking_date FROM reservations WHERE (EXTRACT(MONTH from checkin_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(MONTH FROM checkout_date) = EXTRACT(MONTH FROM CURRENT_DATE));`
 
 <details>
 <summary>Terminal Output</summary>
 
 ```
-insert here
+postgres=# SELECT id, cust_id, room_no, (checkout_date - checkin_date) AS no_nights, no_guests, booking_date FROM reservations WHERE (EXTRACT(MONTH from checkin_date) = EXTRACT(MONTH FROM CURRENT_DATE) AND EXTRACT(MONTH FROM checkout_date) = EXTRACT(MONTH FROM CURRENT_DATE));
+
+ id  | cust_id | room_no | no_nights | no_guests | booking_date
+-----+---------+---------+-----------+-----------+--------------
+   6 |     119 |         |         5 |         2 | 2023-04-29
+   9 |      64 |         |         3 |         2 | 2023-04-29
+  14 |      32 |         |         1 |         1 | 2023-04-21
+  16 |      83 |         |         2 |         1 | 2023-04-23
+  21 |      51 |         |         4 |         1 | 2023-04-29
+  23 |      46 |         |         4 |         2 | 2023-04-20
+  25 |      19 |         |         5 |         2 | 2023-04-12
+  27 |      76 |         |         2 |         2 | 2023-04-29
+  42 |     110 |         |         1 |         2 | 2023-04-14
+  47 |      31 |         |         1 |         1 | 2023-04-12
+  49 |      16 |         |         6 |         1 | 2023-04-29
+  51 |     117 |         |         1 |         1 | 2023-04-29
+  54 |      97 |         |         3 |         1 | 2023-04-29
+  63 |      15 |         |         4 |         1 | 2023-04-19
+  64 |      79 |         |         3 |         2 | 2023-04-29
+  67 |       9 |         |         3 |         1 | 2023-04-29
+  70 |      26 |         |         3 |         1 | 2023-04-20
+  76 |      35 |         |         5 |         2 | 2023-04-18
+  78 |     119 |         |         2 |         2 | 2023-04-29
+  79 |      38 |         |         5 |         2 | 2023-04-29
+  80 |      96 |         |         5 |         1 | 2023-04-29
+  81 |      24 |         |         1 |         1 | 2023-04-26
+  86 |      12 |         |         3 |         1 | 2023-04-29
+  88 |      63 |         |         5 |         1 | 2023-04-29
+  90 |      66 |         |         3 |         1 | 2023-04-26
+  93 |     129 |         |         4 |         1 | 2023-04-18
+  97 |     116 |         |         2 |         1 | 2023-04-29
+ 102 |      93 |         |         4 |         1 | 2023-04-25
+ 105 |     108 |         |         2 |         1 | 2023-04-29
+(29 rows)
+
+
+postgres=#
 ```
 
 </details><br>
