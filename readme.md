@@ -2,6 +2,9 @@
 
 `<cmd> <databaseName> <username>`
 
+<details>
+<summary>Terminal Output</summary>
+
 ```
 ( <cmd> <databaseName> <username> )
 psql postgres postgres
@@ -18,9 +21,16 @@ Type "help" for help.
 postgres=#
 ```
 
+</details><br>
+
+---
+
 ## 2. Postgres Help
 
 `help`
+
+<details>
+<summary>Terminal Output</summary>
 
 ```
 postgres=# help
@@ -32,6 +42,10 @@ Type:  \copyright for distribution terms
        \q to quit
 postgres=#
 ```
+
+</details><br>
+
+---
 
 ## 3. Add the Contents of an External File
 
@@ -358,11 +372,16 @@ INSERT 0 63
 postgres=#
 ```
 
-</details>
+</details><br>
+
+---
 
 ## 4. List All Tables In The Current Database
 
 `\dt`
+
+<details>
+<summary>Terminal Output</summary>
 
 ```
 postgres=# \dt
@@ -379,6 +398,10 @@ postgres=# \dt
 
 postgres=#
 ```
+
+</details><br>
+
+---
 
 ## 5. The SELECT Statement
 
@@ -530,7 +553,7 @@ postgres=# SELECT name, phone, country FROM customers;
 postgres=#
 ```
 
-</details>
+</details><br>
 
 ---
 
@@ -546,19 +569,237 @@ FROM
      customers;
 ```
 
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT name,
+postgres-#      phone,
+postgres-#      country
+postgres-# FROM
+postgres-#      customers;
+          name           |       phone        |   country
+-------------------------+--------------------+--------------
+ John Smith              | 0151 123 4567      | UK
+ Sue Jones               | 0201 234 5678      | UK
+ Alice Evans             | 0161 345 6789      | UK
+ Mohammed Trungpa        | 0161 456 7890      | UK
+ Steven King             | 01245 134 4678     | UK
+ Nadia Sethuraman        |                    | UK
+ Melinda Marsh           | 070 1513 5671      | UK
+ Mart├¡n Sommer          | (91) 555 22 82     | Spain
+ Laurence Lebihan        | 91.24.4555         | France
+ Keith Stewart           | 078 4679 1282      | UK
+ Carlos Porter           | 070 2679 6812      | UK
+ Carine Schmitt          | 40.32.2555         | France
+ Jean King               | 07025 551 838      | USA
+ Peter Ferguson          | 03 9520 4555       | Australia
+ Janine Labrune          | 40.67.8555         | France
+ Jonas Bergulfsen        | 07-98 9555         | Norway
+ Susan Nelson            | 0415 555 1450      | USA
+ Zbyszek Piestrzeniewicz | (26) 642-7555      | Poland
+ Roland Keitel           | +49 69 66 90 2555  | Germany
+ Julie Murphy            | 0650 555 5787      | USA
+ Kwai Lee                | 0212 555 7818      | USA
+ Diego Freyre            | (91) 555 94 44     | Spain
+ Christina Berglund      | 0921-12 3555       | Sweden
+ Jytte Petersen          | 31 12 3555         | Denmark
+ Mary Saveley            | 78.32.5555         | France
+ Eric Natividad          | +65 221 7555       | Singapore
+ Jeff Young              | 0212 555 7413      | USA
+ Kelvin Leong            | 0215 555 1555      | USA
+ Juri Hashimoto          | 0650 555 6809      | USA
+ Wendy Victorino         | +65 224 1555       | Singapore
+ Veysel Oeztan           | +47 2267 3215      | Norway
+ Keith Franco            | 2035557845         | USA
+ Isabel de Castro        | (1) 356-5555       | Portugal
+ Martine Ranc├®          | 20.16.1555         | France
+ Marie Bertrand          | (1) 42.34.2555     | France
+ Jerry Tseng             | 6175555555         | USA
+ Julie King              | 2035552570         | USA
+ Mory Kentary            | +81 06 6342 5555   | Japan
+ Michael Frick           | 2125551500         | USA
+ Matti Karttunen         | 90-224 8555        | Finland
+ Rachel Ashworth         | (171) 555-1555     | UK
+ Dean Cassidy            | +353 1862 1555     | Ireland
+ Leslie Taylor           | 6175558428         | USA
+ Elizabeth Devon         | (171) 555-2282     | UK
+ Yoshi Tamuri            | (604) 555-3392     | Canada
+ Miguel Barajas          | 6175557555         | USA
+ Julie Young             | 6265557265         | USA
+ Brydey Walker           | +612 9411 1555     | Singapore
+ Fr├®d├®rique Citeaux    | 88.60.1555         | France
+ Mike Gao                | +852 2251 1555     | Hong Kong
+ Eduardo Saavedra        | (93) 203 4555      | Spain
+ Mary Young              | 3105552373         | USA
+ Horst Kloss             | 0372-555188        | Germany
+ Palle Ibsen             | 86 21 3555         | Denmark
+ Jean Fresni├¿re         | (514) 555-8054     | Canada
+ Alejandra Camino        | (91) 745 6555      | Spain
+ Valarie Thompson        | 7605558146         | USA
+ Helen Bennett           | (198) 555-8888     | UK
+ Annette Roulet          | 61.77.6555         | France
+ Renate Messner          | 069-0555984        | Germany
+ Paolo Accorti           | 011-4988555        | Italy
+ Daniel Da Silva         | +33 1 46 62 7555   | France
+ Daniel Tonini           | 30.59.8555         | France
+ Henriette Pfalzheim     | 0221-5554327       | Germany
+ Elizabeth Lincoln       | (604) 555-4555     | Canada
+ Peter Franken           | 089-0877555        | Germany
+ Anna O'Hara             | 02 9936 8555       | Australia
+ Giovanni Rovelli        | 035-640555         | Italy
+ Adrian Huxley           | +61 2 9495 8555    | Australia
+ Marta Hernandez         | 6175558555         | USA
+ Ed Harrison             | +41 26 425 50 01   | Switzerland
+ Mihael Holz             | 0897-034555        | Switzerland
+ Jan Klaeboe             | +47 2212 1555      | Norway
+ Bradley Schuyler        | +31 20 491 9555    | Netherlands
+ Mel Andersen            | 030-0074555        | Germany
+ Pirkko Koskitalo        | 981-443655         | Finland
+ Catherine Dewey         | (02) 5554 67       | Belgium
+ Steve Frick             | 9145554562         | USA
+ Wing Huang              | 5085559555         | USA
+ Julie Brown             | 6505551386         | USA
+ Mike Graham             | +64 9 312 5555     | New Zealand
+ Ann Brown               | (171) 555-0297     | UK
+ William Brown           | 2015559350         | USA
+ Ben Calaghan            | 61-7-3844-6555     | Australia
+ Kalle Suominen          | +358 9 8045 555    | Finland
+ Philip Cramer           | 0555-09555         | Germany
+ Francisca Cervantes     | 2155554695         | USA
+ Jesus Fernandez         | +34 913 728 555    | Spain
+ Brian Chandler          | 2155554369         | USA
+ Patricia McKenna        | 2967 555           | Ireland
+ Laurence Lebihan        | 91.24.4555         | France
+ Paul Henriot            | 26.47.1555         | France
+ Armand Kuger            | +27 21 550 3555    | South Africa
+ Wales MacKinlay         | 64-9-3763555       | New Zealand
+ Karin Josephs           | 0251-555259        | Germany
+ Juri Yoshido            | 6175559555         | USA
+ Dorothy Young           | 6035558647         | USA
+ Lino Rodriguez          | (1) 354-2555       | Portugal
+ Braun Urs               | 0452-076555        | Switzerland
+ Allen Nelson            | 6175558555         | USA
+ Pascale Cartrain        | (071) 23 67 2555   | Belgium
+ Georg Pipps             | 6562-9555          | Austria
+ Arnold Cruz             | +63 2 555 3587     | Philippines
+ Maurizio Moroni         | 0522-556555        | Italy
+ Akiko Shimamura         | +81 3 3584 0555    | Japan
+ Dominique Perrier       | (1) 47.55.6555     | France
+ Rita M├╝ller            | 0711-555361        | Germany
+ Sarah McRoy             | 04 499 9555        | New Zealand
+ Michael Donnermeyer     |  +49 89 61 08 9555 | Germany
+ Maria Hernandez         | 2125558493         | USA
+ Alexander Feuer         | 0342-555176        | Germany
+ Dan Lewis               | 2035554407         | USA
+ Martha Larsson          | 0695-34 6555       | Sweden
+ Sue Frick               | 4085553659         | USA
+ Roland Mendel           | 7675-3555          | Austria
+ Leslie Murphy           | 2035559545         | USA
+ Yu Choi                 | 2125551957         | USA
+ Mart├¡n Sommer          | (91) 555 22 82     | Spain
+ Sven Ottlieb            | 0241-039123        | Germany
+ Violeta Benitez         | 5085552555         | USA
+ Carmen Anton            | +34 913 728555     | Spain
+ Sean Clenahan           | 61-9-3844-6555     | Australia
+ Franco Ricotti          | +39 022515555      | Italy
+ Steve Thompson          | 3105553722         | USA
+ Hanna Moos              | 0621-08555         | Germany
+ Alexander Semenov       | +7 812 293 0521    | Russia
+ Raanan Altagar,G M      | + 972 9 959 8555   | Israel
+ Jos├® Pedro Roel        | (95) 555 82 82     | Spain
+ Rosa Salazar            | 2155559857         | USA
+ Sue Taylor              | 4155554312         | USA
+ Thomas Smith            | (171) 555-7555     | UK
+ Valarie Franco          | 6175552555         | USA
+ Tony Snowden            | +64 9 5555500      | New Zealand
+(133 rows)
+
+
+postgres=#
+
+```
+
+</details><br>
+
 ---
 
 ## 7. Return ALL Columns
 
+`SELECT * FROM rooms;`
+
+<details>
+<summary>Terminal Output</summary>
+
 ```
-SELECT * FROM rooms;
+postgres=# SELECT * FROM rooms;
+ room_no |  rate  |  room_type   | no_guests
+---------+--------+--------------+-----------
+     101 |  85.00 | PREMIUM      |         2
+     102 |  85.00 | PREMIUM      |         2
+     103 |  85.00 | PREMIUM      |         2
+     104 |  85.00 | PREMIUM      |         2
+     105 |  85.00 | PREMIUM      |         2
+     106 |  85.00 | PREMIUM      |         2
+     107 |  85.00 | PREMIUM      |         2
+     108 |  98.00 | PREMIUM PLUS |         2
+     109 |  98.00 | PREMIUM PLUS |         2
+     110 |  98.00 | PREMIUM PLUS |         2
+     111 |  98.00 | PREMIUM PLUS |         2
+     112 |  98.00 | PREMIUM PLUS |         2
+     201 |  85.00 | PREMIUM      |         2
+     202 |  85.00 | PREMIUM      |         2
+     203 |  85.00 | PREMIUM      |         2
+     204 |  85.00 | PREMIUM      |         2
+     205 |  85.00 | PREMIUM      |         3
+     206 |  85.00 | PREMIUM      |         3
+     207 |  85.00 | PREMIUM      |         3
+     208 |  98.00 | PREMIUM PLUS |         2
+     209 |  98.00 | PREMIUM PLUS |         2
+     210 |  98.00 | PREMIUM PLUS |         2
+     211 |  98.00 | PREMIUM PLUS |         3
+     212 |  98.00 | PREMIUM PLUS |         3
+     301 | 110.00 | PREMIER      |         2
+     302 | 110.00 | PREMIER      |         2
+     303 | 110.00 | PREMIER      |         2
+     304 | 110.00 | PREMIER      |         2
+     305 | 110.00 | PREMIER      |         2
+     306 | 110.00 | PREMIER      |         2
+     307 | 110.00 | PREMIER      |         2
+     308 | 123.00 | PREMIER PLUS |         2
+     309 | 123.00 | PREMIER PLUS |         2
+     310 | 123.00 | PREMIER PLUS |         2
+     311 | 123.00 | PREMIER PLUS |         2
+     312 | 123.00 | PREMIER PLUS |         2
+     401 | 110.00 | PREMIER      |         2
+     402 | 110.00 | PREMIER      |         2
+     403 | 110.00 | PREMIER      |         2
+     404 | 110.00 | PREMIER      |         2
+     405 | 110.00 | PREMIER      |         2
+     406 | 110.00 | PREMIER      |         2
+     407 | 110.00 | PREMIER      |         2
+     408 | 123.00 | PREMIER PLUS |         2
+     409 | 123.00 | PREMIER PLUS |         2
+     410 | 123.00 | PREMIER PLUS |         2
+     411 | 123.00 | FAMILY       |         4
+     412 | 123.00 | FAMILY       |         4
+(48 rows)
+
+
+postgres=#
+
 ```
+
+</details><br>
 
 ---
 
 ## 8. See What Columns Exist in a Table
 
 `\d <table_name>`
+
+<details>
+<summary>Terminal Output</summary>
 
 ```
 postgres=# \d customers
@@ -582,6 +823,8 @@ Referenced by:
 postgres=#
 ```
 
+</details><br>
+
 ---
 
 ## 9. UPPER/lower case
@@ -593,13 +836,15 @@ The use of UPPER/lower case is only to emphasise and differentiate the SQL keywo
 
 ## 10. Scrolling the Results
 
-```
-Space       Next screenful
-'B'         Previous screenful
-Down Arrow  Next line
-Up Arrow    Previous line
-'Q'         Quit back to prompt
-```
+`Space - Next screenful`
+
+`B - Previous screenful`
+
+`Down Arrow - Next line`
+
+`Up Arrow - Previous line`
+
+`Q  - Quit back to prompt`
 
 ---
 
@@ -755,7 +1000,7 @@ postgres=# SELECT name, phone, email FROM customers;
 postgres=#
 ```
 
-</details>
+</details><br>
 
 ### 11.2
 
@@ -821,7 +1066,7 @@ postgres=# SELECT * from rooms;
 
 ```
 
-</details>
+</details><br>
 
 ### 11.3
 
@@ -944,7 +1189,7 @@ postgres=# SELECT cust_id, checkin_date, no_guests FROM reservations;
 
 ```
 
-</details>
+</details><br>
 
 ---
 
@@ -1003,12 +1248,12 @@ postgres=#
 
 ```
 
-</details>
+</details><br>
 
 ### 13.2
 
 - Display the help for the SELECT command (Note: we will not be covering ALL of this syntax!)
-- \h SELECT
+- `\h SELECT`
 
 <details>
 <summary>Terminal Output</summary>
@@ -1070,7 +1315,7 @@ postgres=#
 
 ```
 
-</details>
+</details><br>
 
 ### 13.3
 
@@ -1380,38 +1625,151 @@ postgres=#
 
 ```
 
-</details>
+</details><br>
 
 ---
 
-## 14 Displaying More Than Just Columns
+## 14. Displaying More Than Just Columns
 
 `SELECT room_no, rate * 0.85 FROM rooms;`
 
+<details>
+<summary>Terminal Output</summary>
+
 ```
-+---------+-------------+
-| room_no | rate * 0.85 |
-+---------+-------------+
-|     101 |     72.2500 |
-|     102 |     72.2500 |
-|     103 |     72.2500 |
+postgres=# SELECT room_no, rate * 0.85 FROM rooms;
+ room_no | ?column?
+---------+----------
+     101 |  72.2500
+     102 |  72.2500
+     103 |  72.2500
+     104 |  72.2500
+     105 |  72.2500
+     106 |  72.2500
+     107 |  72.2500
+     108 |  83.3000
+     109 |  83.3000
+     110 |  83.3000
+     111 |  83.3000
+     112 |  83.3000
+     201 |  72.2500
+     202 |  72.2500
+     203 |  72.2500
+     204 |  72.2500
+     205 |  72.2500
+     206 |  72.2500
+     207 |  72.2500
+     208 |  83.3000
+     209 |  83.3000
+     210 |  83.3000
+     211 |  83.3000
+     212 |  83.3000
+     301 |  93.5000
+     302 |  93.5000
+     303 |  93.5000
+     304 |  93.5000
+     305 |  93.5000
+     306 |  93.5000
+     307 |  93.5000
+     308 | 104.5500
+     309 | 104.5500
+     310 | 104.5500
+     311 | 104.5500
+     312 | 104.5500
+     401 |  93.5000
+     402 |  93.5000
+     403 |  93.5000
+     404 |  93.5000
+     405 |  93.5000
+     406 |  93.5000
+     407 |  93.5000
+     408 | 104.5500
+     409 | 104.5500
+     410 | 104.5500
+     411 | 104.5500
+     412 | 104.5500
+(48 rows)
+
+
+postgres=#
 ```
 
-Use a **column alias** to give the expression a meaningful name:
+</details><br>
+
+Use a **column alias** to give the expression a meaningful name:  
 `SELECT room_no,
        rate * 0.85 AS discounted_rate
     FROM rooms;`
 
+<details>
+<summary>Terminal Output</summary>
+
 ```
-+---------+-----------------+
-| room_no | discounted_rate |
-+---------+-----------------+
-|     101 |         72.2500 |
-|     102 |         72.2500 |
-|     103 |         72.2500 |
+postgres=# SELECT room_no,
+postgres-#        rate * 0.85 AS discounted_rate
+postgres-#     FROM rooms;
+ room_no | discounted_rate
+---------+-----------------
+     101 |         72.2500
+     102 |         72.2500
+     103 |         72.2500
+     104 |         72.2500
+     105 |         72.2500
+     106 |         72.2500
+     107 |         72.2500
+     108 |         83.3000
+     109 |         83.3000
+     110 |         83.3000
+     111 |         83.3000
+     112 |         83.3000
+     201 |         72.2500
+     202 |         72.2500
+     203 |         72.2500
+     204 |         72.2500
+     205 |         72.2500
+     206 |         72.2500
+     207 |         72.2500
+     208 |         83.3000
+     209 |         83.3000
+     210 |         83.3000
+     211 |         83.3000
+     212 |         83.3000
+     301 |         93.5000
+     302 |         93.5000
+     303 |         93.5000
+     304 |         93.5000
+     305 |         93.5000
+     306 |         93.5000
+     307 |         93.5000
+     308 |        104.5500
+     309 |        104.5500
+     310 |        104.5500
+     311 |        104.5500
+     312 |        104.5500
+     401 |         93.5000
+     402 |         93.5000
+     403 |         93.5000
+     404 |         93.5000
+     405 |         93.5000
+     406 |         93.5000
+     407 |         93.5000
+     408 |        104.5500
+     409 |        104.5500
+     410 |        104.5500
+     411 |        104.5500
+     412 |        104.5500
+(48 rows)
+
+
+postgres=#
+
 ```
 
-### 15 Expressions in SQL
+</details><br>
+
+---
+
+## 15. Expressions in SQL
 
 `* Multiply`
 
@@ -1493,7 +1851,7 @@ postgres=#
 
 ```
 
-</details>
+</details><br>
 
 You can change the column heading using a **column alias**:
 
@@ -1561,7 +1919,7 @@ postgres=#
 
 ```
 
-</details>
+</details><br>
 
 Use string concatenation to glue character data together:
 
@@ -1714,6 +2072,6 @@ postgres=#
 
 ```
 
-</details>
+</details><br>
 
 ---

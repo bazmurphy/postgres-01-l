@@ -1,8 +1,8 @@
 <details>
-<summary>Expand Answer</summary>
+<summary>Terminal Output</summary>
 
 ```
-test
+insert here
 
 ```
 
