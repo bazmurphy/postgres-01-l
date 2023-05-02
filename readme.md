@@ -6,7 +6,7 @@
 <summary>Terminal Output</summary>
 
 ```
-( <cmd> <databaseName> <username> )
+<cmd> <databaseName> <username>
 psql postgres postgres
 password: ~enter password~
 ```
@@ -407,6 +407,8 @@ postgres=#
 
 `SELECT ... FROM ...;`
 
+`SELECT name, phone, country FROM customers;`
+
 <details>
 <summary>Terminal Output</summary>
 
@@ -797,6 +799,8 @@ postgres=#
 ## 8. See What Columns Exist in a Table
 
 `\d <table_name>`
+
+`\d customers`
 
 <details>
 <summary>Terminal Output</summary>
@@ -1195,7 +1199,9 @@ postgres=# SELECT cust_id, checkin_date, no_guests FROM reservations;
 
 ## 12. PSQL Commands
 
-The psql commands are not SQL and are specific to PostgreSQL (although most other RDBMS's have commands to perform similar jobs). These commands let you display information, execute system commands, etc. Use \? to display a summary of all the psql commands.
+The psql commands are not SQL and are specific to PostgreSQL (although most other RDBMS's have commands to perform similar jobs).
+
+These commands let you display information, execute system commands, etc.
 
 `\dt`
 Display a list of available tables in the database
