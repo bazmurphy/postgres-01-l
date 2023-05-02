@@ -3,7 +3,6 @@
 
 ```
 insert here
-
 ```
 
-</details>
+</details><br>

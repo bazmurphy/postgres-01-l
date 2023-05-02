@@ -719,7 +719,6 @@ postgres-#      customers;
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -789,7 +788,6 @@ postgres=# SELECT * FROM rooms;
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -1067,7 +1065,6 @@ postgres=# SELECT * from rooms;
      411 | 123.00 | FAMILY       |         4
      412 | 123.00 | FAMILY       |         4
 (48 rows)
-
 ```
 
 </details><br>
@@ -1190,7 +1187,6 @@ postgres=# SELECT cust_id, checkin_date, no_guests FROM reservations;
       98 | 2023-06-01   |         2
      108 | 2023-05-26   |         1
 (106 rows)
-
 ```
 
 </details><br>
@@ -1251,7 +1247,6 @@ Referenced by:
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -1318,7 +1313,6 @@ URL: https://www.postgresql.org/docs/15/sql-select.html
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -1628,7 +1622,6 @@ postgres=# \dS
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -1768,7 +1761,6 @@ postgres-#     FROM rooms;
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -1854,7 +1846,6 @@ postgres=# SELECT room_no, room_type, rate * 7 * 0.90 from rooms;
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -1922,7 +1913,6 @@ postgres=# SELECT room_no, room_type, rate * 7 * 0.90 as weekly_rate from rooms;
 
 
 postgres=#
-
 ```
 
 </details><br>
@@ -2075,9 +2065,860 @@ postgres=# SELECT 'Customer name = ' || name FROM customers;
 
 
 postgres=#
-
 ```
 
 </details><br>
 
 ---
+
+## 16. Choosing the Rows
+
+You can choose which rows to display by specifying some condition that must be matched:
+
+```
+SELECT id, name, phone, email, country
+  FROM customers
+  WHERE country = 'France';
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT id, name, phone, email, country
+postgres-#   FROM customers
+postgres-#   WHERE country = 'France';
+ id  |         name         |      phone       |             email             | country
+-----+----------------------+------------------+-------------------------------+---------
+   9 | Laurence Lebihan     | 91.24.4555       | laurence.lebihan@xmzx.net     | France
+  12 | Carine Schmitt       | 40.32.2555       | carine.schmitt@dftu.net       | France
+  15 | Janine Labrune       | 40.67.8555       | janine.labrune@dlsh.net       | France
+  25 | Mary Saveley         | 78.32.5555       | mary.saveley@yppl.net         | France
+  34 | Martine Ranc├®       | 20.16.1555       | martine.ranc├®@xeqs.net       | France
+  35 | Marie Bertrand       | (1) 42.34.2555   | marie.bertrand@glut.net       | France
+  49 | Fr├®d├®rique Citeaux | 88.60.1555       | fr├®d├®rique.citeaux@vekn.net | France
+  59 | Annette Roulet       | 61.77.6555       | annette.roulet@lgha.net       | France
+  62 | Daniel Da Silva      | +33 1 46 62 7555 | daniel.da.silva@hijy.net      | France
+  63 | Daniel Tonini        | 30.59.8555       | daniel.tonini@mxvw.net        | France
+  91 | Laurence Lebihan     | 91.24.4555       | laurence.lebihan@xmzx.net     | France
+  92 | Paul Henriot         | 26.47.1555       | paul.henriot@uwua.net         | France
+ 106 | Dominique Perrier    | (1) 47.55.6555   | dominique.perrier@bdim.net    | France
+(13 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### Comparison Operators
+
+`=` Equality **Note: use only one = (equals) symbol to test for equality**
+
+`<` Less Than
+
+`>` Greater Than
+
+`<=` Less Than or Equal
+
+`>=` Greater Than or Equal
+
+`!=` Not Equal
+
+`<>` Or
+
+### Comparing Numbers
+
+When comparing numbers no punctuation is needed around the value, for example
+
+`WHERE rate > 100`
+
+### Comparing Character Data or Dates
+
+When comparing character data or dates you must enclose the values in single quotes (apostrophes), for example
+
+`WHERE name = 'Mary Saveley'`
+
+### The Return
+
+Only the rows that match the comparison test (called a **predicate**) are returned by the query.
+
+The predicate can use columns not returned by the query
+
+### Combining Tests in a Predicate
+
+Use AND and OR to combine tests:
+
+```
+SELECT * FROM reservations
+   WHERE room_no >= 200
+     AND room_no < 300
+     AND checkin_date >= '2018-01-01';
+```
+
+This lists reservations for rooms on the second floor (rooms 200 - 299) since the start of 2018. Note the format of the date value - this conforms to the ISO 8601 standard and should be used in preference to any other format to avoid ambiguity.
+
+<details>
+
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM reservations
+postgres-#    WHERE room_no >= 200
+postgres-#      AND room_no < 300
+postgres-#      AND checkin_date >= '2018-01-01';
+ id  | cust_id | room_no | checkin_date | checkout_date | no_guests | booking_date
+-----+---------+---------+--------------+---------------+-----------+--------------
+   1 |       3 |     204 | 2023-03-21   | 2023-03-24    |         1 | 2023-03-04
+   5 |       6 |     211 | 2023-03-27   | 2023-03-30    |         2 | 2023-02-26
+   7 |     102 |     202 | 2023-03-25   | 2023-03-30    |         2 | 2023-03-16
+  10 |       2 |     208 | 2023-03-16   | 2023-03-22    |         2 | 2023-03-11
+  13 |      25 |     206 | 2023-03-27   | 2023-03-30    |         2 | 2023-03-17
+  18 |      15 |     201 | 2023-03-15   | 2023-03-17    |         2 | 2023-02-22
+  26 |      97 |     210 | 2023-03-24   | 2023-03-30    |         2 | 2023-03-24
+  35 |     114 |     203 | 2023-03-14   | 2023-03-18    |         1 | 2023-03-07
+  39 |     129 |     206 | 2023-04-04   | 2023-04-06    |         2 | 2023-03-30
+  52 |     115 |     203 | 2023-03-10   | 2023-03-13    |         1 | 2023-02-05
+  55 |     109 |     202 | 2023-03-21   | 2023-03-23    |         1 | 2023-03-16
+  56 |      91 |     211 | 2023-04-22   | 2023-04-27    |         2 | 2023-04-11
+  58 |      88 |     206 | 2023-04-17   | 2023-04-18    |         1 | 2023-04-14
+  69 |      43 |     204 | 2023-03-01   | 2023-03-06    |         2 | 2023-02-04
+  77 |     115 |     202 | 2023-03-13   | 2023-03-15    |         1 | 2023-02-26
+  82 |     106 |     206 | 2023-04-25   | 2023-04-30    |         1 | 2023-04-11
+  83 |     130 |     209 | 2023-03-22   | 2023-03-23    |         1 | 2023-02-28
+  94 |      29 |     212 | 2023-03-26   | 2023-03-29    |         1 | 2023-03-20
+ 100 |      18 |     211 | 2023-04-19   | 2023-04-21    |         2 | 2023-04-02
+(19 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+Another example - to find cheap or Premier rooms on floors 1 and 2 - we might try this to start with:
+
+```
+SELECT * FROM rooms
+   WHERE room_type = 'PREMIER'
+      OR rate < 100.00
+     AND room_no < 300;
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms
+postgres-#    WHERE room_type = 'PREMIER'
+postgres-#       OR rate < 100.00
+postgres-#      AND room_no < 300;
+ room_no |  rate  |  room_type   | no_guests
+---------+--------+--------------+-----------
+     101 |  85.00 | PREMIUM      |         2
+     102 |  85.00 | PREMIUM      |         2
+     103 |  85.00 | PREMIUM      |         2
+     104 |  85.00 | PREMIUM      |         2
+     105 |  85.00 | PREMIUM      |         2
+     106 |  85.00 | PREMIUM      |         2
+     107 |  85.00 | PREMIUM      |         2
+     108 |  98.00 | PREMIUM PLUS |         2
+     109 |  98.00 | PREMIUM PLUS |         2
+     110 |  98.00 | PREMIUM PLUS |         2
+     111 |  98.00 | PREMIUM PLUS |         2
+     112 |  98.00 | PREMIUM PLUS |         2
+     201 |  85.00 | PREMIUM      |         2
+     202 |  85.00 | PREMIUM      |         2
+     203 |  85.00 | PREMIUM      |         2
+     204 |  85.00 | PREMIUM      |         2
+     205 |  85.00 | PREMIUM      |         3
+     206 |  85.00 | PREMIUM      |         3
+     207 |  85.00 | PREMIUM      |         3
+     208 |  98.00 | PREMIUM PLUS |         2
+     209 |  98.00 | PREMIUM PLUS |         2
+     210 |  98.00 | PREMIUM PLUS |         2
+     211 |  98.00 | PREMIUM PLUS |         3
+     212 |  98.00 | PREMIUM PLUS |         3
+     301 | 110.00 | PREMIER      |         2
+     302 | 110.00 | PREMIER      |         2
+     303 | 110.00 | PREMIER      |         2
+     304 | 110.00 | PREMIER      |         2
+     305 | 110.00 | PREMIER      |         2
+     306 | 110.00 | PREMIER      |         2
+     307 | 110.00 | PREMIER      |         2
+     401 | 110.00 | PREMIER      |         2
+     402 | 110.00 | PREMIER      |         2
+     403 | 110.00 | PREMIER      |         2
+     404 | 110.00 | PREMIER      |         2
+     405 | 110.00 | PREMIER      |         2
+     406 | 110.00 | PREMIER      |         2
+     407 | 110.00 | PREMIER      |         2
+(38 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+This isn't quite right - it returns rooms on the 3rd and 4th floors. Why?
+
+### Overriding Evaluation Order
+
+Just like any programming language, SQL has an evaluation order (precedence). For example, multiply and divide take precedence over add and subtract, so that:
+
+`SELECT rate + 20 * 0.85 from rooms;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT rate + 20 * 0.85 from rooms;
+ ?column?
+----------
+   102.00
+   102.00
+   102.00
+   102.00
+   102.00
+   102.00
+   102.00
+   115.00
+   115.00
+   115.00
+   115.00
+   115.00
+   102.00
+   102.00
+   102.00
+   102.00
+   102.00
+   102.00
+   102.00
+   115.00
+   115.00
+   115.00
+   115.00
+   115.00
+   127.00
+   127.00
+   127.00
+   127.00
+   127.00
+   127.00
+   127.00
+   140.00
+   140.00
+   140.00
+   140.00
+   140.00
+   127.00
+   127.00
+   127.00
+   127.00
+   127.00
+   127.00
+   127.00
+   140.00
+   140.00
+   140.00
+   140.00
+   140.00
+(48 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+is not the same as:
+
+`SELECT (rate + 20) * 0.85 from rooms;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT (rate + 20) * 0.85 from rooms;
+ ?column?
+----------
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+ 100.3000
+ 100.3000
+ 100.3000
+ 100.3000
+ 100.3000
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+  89.2500
+ 100.3000
+ 100.3000
+ 100.3000
+ 100.3000
+ 100.3000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 121.5500
+ 121.5500
+ 121.5500
+ 121.5500
+ 121.5500
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 110.5000
+ 121.5500
+ 121.5500
+ 121.5500
+ 121.5500
+ 121.5500
+(48 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+We can override the normal precedence by using parentheses (...) around parts of the expression, just as in JavaScript.
+
+With compound predicates AND takes precedence over OR, so that to make the query give the intended results we need to use:
+
+```
+SELECT * FROM rooms
+   WHERE (room_type = 'PREMIER'
+      OR rate < 100.00)
+     AND room_no < 300;
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms
+postgres-#    WHERE (room_type = 'PREMIER'
+postgres(#       OR rate < 100.00)
+postgres-#      AND room_no < 300;
+ room_no | rate  |  room_type   | no_guests
+---------+-------+--------------+-----------
+     101 | 85.00 | PREMIUM      |         2
+     102 | 85.00 | PREMIUM      |         2
+     103 | 85.00 | PREMIUM      |         2
+     104 | 85.00 | PREMIUM      |         2
+     105 | 85.00 | PREMIUM      |         2
+     106 | 85.00 | PREMIUM      |         2
+     107 | 85.00 | PREMIUM      |         2
+     108 | 98.00 | PREMIUM PLUS |         2
+     109 | 98.00 | PREMIUM PLUS |         2
+     110 | 98.00 | PREMIUM PLUS |         2
+     111 | 98.00 | PREMIUM PLUS |         2
+     112 | 98.00 | PREMIUM PLUS |         2
+     201 | 85.00 | PREMIUM      |         2
+     202 | 85.00 | PREMIUM      |         2
+     203 | 85.00 | PREMIUM      |         2
+     204 | 85.00 | PREMIUM      |         2
+     205 | 85.00 | PREMIUM      |         3
+     206 | 85.00 | PREMIUM      |         3
+     207 | 85.00 | PREMIUM      |         3
+     208 | 98.00 | PREMIUM PLUS |         2
+     209 | 98.00 | PREMIUM PLUS |         2
+     210 | 98.00 | PREMIUM PLUS |         2
+     211 | 98.00 | PREMIUM PLUS |         3
+     212 | 98.00 | PREMIUM PLUS |         3
+(24 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+## More Predicate Types
+
+### BETWEEN operator
+
+The BETWEEN operator has the form a BETWEEN b AND c : checks that a is in the range b - c inclusive.
+
+For example:
+
+(Note that the AND in this case is not combining multiple predicates, it's part of the BETWEEN operator.)
+
+`SELECT ... WHERE price BETWEEN 100 AND 250 ...`
+
+`SELECT * FROM rooms WHERE rate BETWEEN 95 and 115;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms WHERE rate BETWEEN 95 AND 115;
+ room_no |  rate  |  room_type   | no_guests
+---------+--------+--------------+-----------
+     108 |  98.00 | PREMIUM PLUS |         2
+     109 |  98.00 | PREMIUM PLUS |         2
+     110 |  98.00 | PREMIUM PLUS |         2
+     111 |  98.00 | PREMIUM PLUS |         2
+     112 |  98.00 | PREMIUM PLUS |         2
+     208 |  98.00 | PREMIUM PLUS |         2
+     209 |  98.00 | PREMIUM PLUS |         2
+     210 |  98.00 | PREMIUM PLUS |         2
+     211 |  98.00 | PREMIUM PLUS |         3
+     212 |  98.00 | PREMIUM PLUS |         3
+     301 | 110.00 | PREMIER      |         2
+     302 | 110.00 | PREMIER      |         2
+     303 | 110.00 | PREMIER      |         2
+     304 | 110.00 | PREMIER      |         2
+     305 | 110.00 | PREMIER      |         2
+     306 | 110.00 | PREMIER      |         2
+     307 | 110.00 | PREMIER      |         2
+     401 | 110.00 | PREMIER      |         2
+     402 | 110.00 | PREMIER      |         2
+     403 | 110.00 | PREMIER      |         2
+     404 | 110.00 | PREMIER      |         2
+     405 | 110.00 | PREMIER      |         2
+     406 | 110.00 | PREMIER      |         2
+     407 | 110.00 | PREMIER      |         2
+(24 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### IN operator
+
+The IN operator, a IN (b, c, d, ...) checks if the value of a is equal to any of b, c, d, etc...
+
+For example:
+
+`SELECT ... WHERE room_no IN (201, 202, 204, 206) ...`
+
+`SELECT * FROM rooms WHERE room_no IN (101, 105, 110);`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms WHERE room_no IN (101, 105, 110);
+ room_no | rate  |  room_type   | no_guests
+---------+-------+--------------+-----------
+     101 | 85.00 | PREMIUM      |         2
+     105 | 85.00 | PREMIUM      |         2
+     110 | 98.00 | PREMIUM PLUS |         2
+(3 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### INVERTING BETWEEN and IN
+
+Both the BETWEEN and the IN operators can be inverted using:
+
+`... a NOT BETWEEN b AND c ...`
+
+`SELECT * FROM rooms WHERE rate NOT BETWEEN 90 and 120;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms WHERE rate NOT BETWEEN 90 and 120;
+ room_no |  rate  |  room_type   | no_guests
+---------+--------+--------------+-----------
+     101 |  85.00 | PREMIUM      |         2
+     102 |  85.00 | PREMIUM      |         2
+     103 |  85.00 | PREMIUM      |         2
+     104 |  85.00 | PREMIUM      |         2
+     105 |  85.00 | PREMIUM      |         2
+     106 |  85.00 | PREMIUM      |         2
+     107 |  85.00 | PREMIUM      |         2
+     201 |  85.00 | PREMIUM      |         2
+     202 |  85.00 | PREMIUM      |         2
+     203 |  85.00 | PREMIUM      |         2
+     204 |  85.00 | PREMIUM      |         2
+     205 |  85.00 | PREMIUM      |         3
+     206 |  85.00 | PREMIUM      |         3
+     207 |  85.00 | PREMIUM      |         3
+     308 | 123.00 | PREMIER PLUS |         2
+     309 | 123.00 | PREMIER PLUS |         2
+     310 | 123.00 | PREMIER PLUS |         2
+     311 | 123.00 | PREMIER PLUS |         2
+     312 | 123.00 | PREMIER PLUS |         2
+     408 | 123.00 | PREMIER PLUS |         2
+     409 | 123.00 | PREMIER PLUS |         2
+     410 | 123.00 | PREMIER PLUS |         2
+     411 | 123.00 | FAMILY       |         4
+     412 | 123.00 | FAMILY       |         4
+(24 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+`... a NOT IN (b, c, d, ...)`
+
+`SELECT * FROM rooms WHERE room_type NOT IN ('PREMIUM', 'PREMIUM PLUS', 'PREMIER','PREMIER PLUS');`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms WHERE room_type NOT IN ('PREMIUM', 'PREMIUM PLUS', 'PREMIER','PREMIER PLUS');
+ room_no |  rate  | room_type | no_guests
+---------+--------+-----------+-----------
+     411 | 123.00 | FAMILY    |         4
+     412 | 123.00 | FAMILY    |         4
+(2 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### LIKE operator
+
+The LIKE operator tests for a match against a wildcard string as `a LIKE b` where a is being tested and b is the wildcard string.
+
+The wildcard string contains text to be matched along with wildcard symbols `%` and `_`
+
+`% (percent) matches any number of any characters`
+
+`_ (underscore) matches exactly one of any character`
+
+For example:
+
+`name LIKE 'A%'` matches names starting with `A`
+
+`SELECT * FROM customers WHERE name LIKE 'A%';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM customers WHERE name LIKE 'A%';
+ id  |       name        |           email            |      phone      |                  address                  |       city       | postcode |   country
+-----+-------------------+----------------------------+-----------------+-------------------------------------------+------------------+----------+--------------
+   3 | Alice Evans       | alice.evans001@hotmail.com | 0161 345 6789   | 3 High Road                               | Manchester       | m13 4ef  | UK
+  56 | Alejandra Camino  | alejandra.camino@omet.net  | (91) 745 6555   | Gran V├¡a, 1                              | Madrid           | 28001    | Spain
+  59 | Annette Roulet    | annette.roulet@lgha.net    | 61.77.6555      | 1 rue Alsace-Lorraine                     | Toulouse         | 31000    | France
+  67 | Anna O'Hara       | anna.o"hara@hzjw.net       | 02 9936 8555    | 201 Miller Street, Level 15               | North Sydney     | 2060     | Australia
+  69 | Adrian Huxley     | adrian.huxley@hmep.net     | +61 2 9495 8555 | Monitor Money Building, 815 Pacific Hwy   | Chatswood        | 2067     | Australia
+  82 | Ann Brown         | ann.brown@xwkb.net         | (171) 555-0297  | 35 King George                            | London           | WX3 6FW  | UK
+  93 | Armand Kuger      | armand.kuger@axkq.net      | +27 21 550 3555 | 1250 Pretorius Street                     | Hatfield         | 0028     | South Africa
+ 100 | Allen Nelson      | allen.nelson@eruo.net      | 6175558555      | 7825 Douglas Av.                          | Brickhaven       | 58339    | USA
+ 103 | Arnold Cruz       | arnold.cruz@awqa.net       | +63 2 555 3587  | 15 McCallum Street, NatWest Center #13-03 | Makati City      | 1227 MM  | Philippines
+ 105 | Akiko Shimamura   | akiko.shimamura@pipl.net   | +81 3 3584 0555 | 2-2-8 Roppongi                            | Minato-ku        | 106-0032 | Japan
+ 111 | Alexander Feuer   | alexander.feuer@hzrr.net   | 0342-555176     | Heerstr. 22                               | Leipzig          | 04179    | Germany
+ 126 | Alexander Semenov | alexander.semenov@xgru.net | +7 812 293 0521 | 2 Pobedy Square                           | Saint Petersburg | 196143   | Russia
+(12 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+`name LIKE '_a%'` matches names that have `'a'` as the 2nd character (note the initial underscore '\_')
+
+`SELECT * FROM customers WHERE name LIKE '_a%';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM customers WHERE name LIKE '_a%';
+ id  |        name        |            email            |      phone       |               address               |     city      | postcode  |   country
+-----+--------------------+-----------------------------+------------------+-------------------------------------+---------------+-----------+-------------
+   6 | Nadia Sethuraman   | nadia.sethuraman@mail.com   |                  | 135 Green Street                    | Manchester    | M10 4BG   | UK
+   8 | Mart├¡n Sommer     | martin.sommer@dfgg.net      | (91) 555 22 82   | C/ Romero, 33                       | Madrid        | 28016     | Spain
+   9 | Laurence Lebihan   | laurence.lebihan@xmzx.net   | 91.24.4555       | 12, rue des Bouchers                | Marseille     | 13008     | France
+  11 | Carlos Porter      | carlos.porter@ortynuf.com   | 070 2679 6812    | 81 Bath Rd                          | Salisbury     | SA61 4GD  | UK
+  12 | Carine Schmitt     | carine.schmitt@dftu.net     | 40.32.2555       | 54, rue Royale                      | Nantes        | 44000     | France
+  15 | Janine Labrune     | janine.labrune@dlsh.net     | 40.67.8555       | 67, rue des Cinquante Otages        | Nantes        | 44000     | France
+  25 | Mary Saveley       | mary.saveley@yppl.net       | 78.32.5555       | 2, rue du Commerce                  | Lyon          | 69004     | France
+  34 | Martine Ranc├®     | martine.ranc├®@xeqs.net     | 20.16.1555       | 184, chauss├®e de Tournai           | Lille         | 59000     | France
+  35 | Marie Bertrand     | marie.bertrand@glut.net     | (1) 42.34.2555   | 265, boulevard Charonne             | Paris         | 75012     | France
+  40 | Matti Karttunen    | matti.karttunen@xkig.net    | 90-224 8555      | Keskuskatu 45                       | Helsinki      | 21240     | Finland
+  41 | Rachel Ashworth    | rachel.ashworth@rzyb.net    | (171) 555-1555   | Fauntleroy Circus                   | Manchester    | EC2 5NT   | UK
+  52 | Mary Young         | mary.young@ratm.net         | 3105552373       | 4097 Douglas Av.                    | Glendale      | 92561     | USA
+  54 | Palle Ibsen        | palle.ibsen@bjqn.net        | 86 21 3555       | Smagsloget 45                       | ├àrhus        | 8200      | Denmark
+  57 | Valarie Thompson   | valarie.thompson@brll.net   | 7605558146       | 361 Furth Circle                    | San Diego     | 91217     | USA
+  61 | Paolo Accorti      | paolo.accorti@xcuw.net      | 011-4988555      | Via Monte Bianco 34                 | Torino        | 10100     | Italy
+  62 | Daniel Da Silva    | daniel.da.silva@hijy.net    | +33 1 46 62 7555 | 27 rue du Colonel Pierre Avia       | Paris         | 75508     | France
+  63 | Daniel Tonini      | daniel.tonini@mxvw.net      | 30.59.8555       | 67, avenue de lEurope               | Versailles    | 78000     | France
+  70 | Marta Hernandez    | marta.hernandez@xqti.net    | 6175558555       | 39323 Spinnaker Dr.                 | Cambridge     | 51247     | USA
+  73 | Jan Klaeboe        | jan.klaeboe@mpnl.net        | +47 2212 1555    | Drammensveien 126A, PB 211 Sentrum  | Oslo          | N 0106    | Norway
+  77 | Catherine Dewey    | catherine.dewey@ndft.net    | (02) 5554 67     | Rue Joseph-Bens 532                 | Bruxelles     | B-1180    | Belgium
+  85 | Kalle Suominen     | kalle.suominen@acif.net     | +358 9 8045 555  | Software Engineering Center, SEC Oy | Espoo         | FIN-02271 | Finland
+  90 | Patricia McKenna   | patricia.mckenna@eert.net   | 2967 555         | 8 Johnstown Road                    | Cork          |           | Ireland
+  91 | Laurence Lebihan   | laurence.lebihan@xmzx.net   | 91.24.4555       | 12, rue des Bouchers                | Marseille     | 13008     | France
+  92 | Paul Henriot       | paul.henriot@uwua.net       | 26.47.1555       | 59 rue de l'Abbaye                  | Reims         | 51100     | France
+  94 | Wales MacKinlay    | wales.mackinlay@omis.net    | 64-9-3763555     | 199 Great North Road                | Auckland      |           | New Zealand
+  95 | Karin Josephs      | karin.josephs@gyfv.net      | 0251-555259      | Luisenstr. 48                       | M├╝nster      | 44087     | Germany
+ 101 | Pascale Cartrain   | pascale.cartrain@oggv.net   | (071) 23 67 2555 | Boulevard Tirou, 255                | Charleroi     | B-6000    | Belgium
+ 104 | Maurizio Moroni    | maurizio.moroni@nqnk.net    | 0522-556555      | Strada Provinciale 124              | Reggio Emilia | 42100     | Italy
+ 108 | Sarah McRoy        | sarah.mcroy@fjnn.net        | 04 499 9555      | 101 Lambton Quay, Level 11          | Wellington    |           | New Zealand
+ 110 | Maria Hernandez    | maria.hernandez@uzkx.net    | 2125558493       | 5905 Pompton St., Suite 750         | NYC           | 10022     | USA
+ 112 | Dan Lewis          | dan.lewis@bqfi.net          | 2035554407       | 2440 Pompton St.                    | Glendale      | 97561     | USA
+ 113 | Martha Larsson     | martha.larsson@abhf.net     | 0695-34 6555     | ├àkergatan 24                       | Br├ñcke       | S-844 67  | Sweden
+ 118 | Mart├¡n Sommer     | mart├¡n.sommer@wcoa.net     | (91) 555 22 82   | C/ Araquil, 67                      | Madrid        | 28023     | Spain
+ 121 | Carmen Anton       | carmen.anton@bhmy.net       | +34 913 728555   | c/ Gobelas, 19-1 Urb. La Florida    | Madrid        | 28023     | Spain
+ 125 | Hanna Moos         | hanna.moos@fmga.net         | 0621-08555       | Forsterstr. 57                      | Mannheim      | 68306     | Germany
+ 127 | Raanan Altagar,G M | raanan.altagar,g.m@mlap.net | + 972 9 959 8555 | 3 Hagalim Blv.                      | Herzlia       | 47625     | Israel
+ 132 | Valarie Franco     | valarie.franco@qait.net     | 6175552555       | 6251 Ingle Ln.                      | Boston        | 51003     | USA
+(37 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+`name LIKE '%ow%'` matches names containing the sequence `'ow'` anywhere in the name
+
+`SELECT * FROM customers WHERE name LIKE '%ow%';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM customers WHERE name LIKE '%ow%';
+ id  |     name      |         email          |     phone      |      address       |     city      | postcode |   country
+-----+---------------+------------------------+----------------+--------------------+---------------+----------+-------------
+  80 | Julie Brown   | julie.brown@zbfm.net   | 6505551386     | 7734 Strong St.    | San Francisco | 94217    | USA
+  82 | Ann Brown     | ann.brown@xwkb.net     | (171) 555-0297 | 35 King George     | London        | WX3 6FW  | UK
+  83 | William Brown | william.brown@wrbo.net | 2015559350     | 7476 Moss Rd.      | Newark        | 94019    | USA
+ 133 | Tony Snowden  | tony.snowden@rzcz.net  | +64 9 5555500  | Arenales 1938 3'A' | Auckland      |          | New Zealand
+(4 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+`LIKE` can be inverted using `a NOT LIKE b`
+
+`SELECT * FROM rooms WHERE room_type NOT LIKE 'P%';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms WHERE room_type NOT LIKE 'P%';
+ room_no |  rate  | room_type | no_guests
+---------+--------+-----------+-----------
+     411 | 123.00 | FAMILY    |         4
+     412 | 123.00 | FAMILY    |         4
+(2 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+If you need to match for a string that includes one of the wildard characters `%` `_` `[]` `^` `|` you can use the 'escape' character, which defaults to `'\'` (backslash).
+
+For example:
+
+`str LIKE '% discount = 5\% %'` matches any value in str that contains `'discount = 5%'`
+
+`LIKE` is case sensitive in many SQL implementations so to make a case insensitive match you should either convert the tested value to either all upper or all lower case, for example:
+
+`lower(name) LIKE '%b%'` matches any name that contains the letters `B` or `b`
+
+`SELECT * from customers WHERE lower(name) LIKE '%y%';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * from customers WHERE lower(name) LIKE '%y%';
+ id  |          name           |              email               |       phone        |                 address                 |     city      | postcode  |   country
+-----+-------------------------+----------------------------------+--------------------+-----------------------------------------+---------------+-----------+-------------
+  18 | Zbyszek Piestrzeniewicz | zbyszek.piestrzeniewicz@askt.net | (26) 642-7555      | ul. Filtrowa 68                         | Warszawa      | 01-012    | Poland
+  20 | Julie Murphy            | julie.murphy@lrtc.net            | 0650 555 5787      | 5557 North Pendale Street               | San Francisco | 94217     | USA
+  22 | Diego Freyre            | diego.freyre@amyr.net            | (91) 555 94 44     | C/ Moralzarzal, 86                      | Madrid        | 28034     | Spain
+  24 | Jytte Petersen          | jytte.petersen@cpbn.net          | 31 12 3555         | Vinb├ªltet 34                           | Kobenhavn     | 1734      | Denmark
+  25 | Mary Saveley            | mary.saveley@yppl.net            | 78.32.5555         | 2, rue du Commerce                      | Lyon          | 69004     | France
+  27 | Jeff Young              | jeff.young@hahh.net              | 0212 555 7413      | 4092 Furth Circle, Suite 400            | NYC           | 10022     | USA
+  30 | Wendy Victorino         | wendy.victorino@ueai.net         | +65 224 1555       | 106 Linden Road Sandown, 2nd Floor      | Singapore     | 069045    | Singapore
+  31 | Veysel Oeztan           | veysel.oeztan@vqkn.net           | +47 2267 3215      | Brehmen St. 121, PR 334 Sentrum         | Bergen        | N 5804    | Norway
+  36 | Jerry Tseng             | jerry.tseng@etea.net             | 6175555555         | 4658 Baden Av.                          | Cambridge     | 51247     | USA
+  38 | Mory Kentary            | mory.kentary@nqfg.net            | +81 06 6342 5555   | 1-6-20 Dojima                           | Kita-ku       |  530-0003 | Japan
+  42 | Dean Cassidy            | dean.cassidy@sntj.net            | +353 1862 1555     | 25 Maiden Lane, Floor No. 4             | Dublin        | 2         | Ireland
+  43 | Leslie Taylor           | leslie.taylor@tunp.net           | 6175558428         | 16780 Pompton St.                       | Brickhaven    | 58339     | USA
+  45 | Yoshi Tamuri            | yoshi.tamuri@juuq.net            | (604) 555-3392     | 1900 Oak St.                            | Vancouver     | V3F 2K1   | Canada
+  47 | Julie Young             | julie.young@rmhl.net             | 6265557265         | 78934 Hillside Dr.                      | Pasadena      | 90003     | USA
+  48 | Brydey Walker           | brydey.walker@kwtj.net           | +612 9411 1555     | Suntec Tower Three, 8 Temasek           | Singapore     | 038988    | Singapore
+  52 | Mary Young              | mary.young@ratm.net              | 3105552373         | 4097 Douglas Av.                        | Glendale      | 92561     | USA
+  69 | Adrian Huxley           | adrian.huxley@hmep.net           | +61 2 9495 8555    | Monitor Money Building, 815 Pacific Hwy | Chatswood     | 2067      | Australia
+  74 | Bradley Schuyler        | bradley.schuyler@stie.net        | +31 20 491 9555    | Kingsfordweg 151                        | Amsterdam     | 1043 GR   | Netherlands
+  77 | Catherine Dewey         | catherine.dewey@ndft.net         | (02) 5554 67       | Rue Joseph-Bens 532                     | Bruxelles     | B-1180    | Belgium
+  94 | Wales MacKinlay         | wales.mackinlay@omis.net         | 64-9-3763555       | 199 Great North Road                    | Auckland      |           | New Zealand
+  96 | Juri Yoshido            | juri.yoshido@klqb.net            | 6175559555         | 8616 Spinnaker Dr.                      | Boston        | 51003     | USA
+  97 | Dorothy Young           | dorothy.young@cwtg.net           | 6035558647         | 2304 Long Airport Avenue                | Nashua        | 62005     | USA
+ 108 | Sarah McRoy             | sarah.mcroy@fjnn.net             | 04 499 9555        | 101 Lambton Quay, Level 11              | Wellington    |           | New Zealand
+ 109 | Michael Donnermeyer     | michael.donnermeyer@lvpk.net     |  +49 89 61 08 9555 | Hansastr. 15                            | Munich        | 80686     | Germany
+ 116 | Leslie Murphy           | leslie.murphy@lbgq.net           | 2035559545         | 567 North Pendale Street                | New Haven     | 97823     | USA
+ 117 | Yu Choi                 | yu.choi@vmpd.net                 | 2125551957         | 5290 North Pendale Street, Suite 200    | NYC           | 10022     | USA
+ 130 | Sue Taylor              | sue.taylor@wllx.net              | 4155554312         | 2793 Furth Circle                       | Brisbane      | 94217     | USA
+ 133 | Tony Snowden            | tony.snowden@rzcz.net            | +64 9 5555500      | Arenales 1938 3'A'                      | Auckland      |           | New Zealand
+(28 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+Note: PostgreSQL also has the non-standard operator ILIKE that can perform a case-insensitive comparison - but avoid this to make code more portable.
+
+### 17. Exercise 3
+
+#### 17.1
+
+- Which customers are from Norway?
+- `SELECT * FROM customers WHERE country LIKE 'Norway';`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM customers WHERE country LIKE 'Norway';
+ id |       name       |           email           |     phone     |              address               |  city   | postcode | country
+----+------------------+---------------------------+---------------+------------------------------------+---------+----------+---------
+ 16 | Jonas Bergulfsen | jonas.bergulfsen@dxbn.net | 07-98 9555    | Erling Skakkes gate 78             | Stavern | 4110     | Norway
+ 31 | Veysel Oeztan    | veysel.oeztan@vqkn.net    | +47 2267 3215 | Brehmen St. 121, PR 334 Sentrum    | Bergen  | N 5804   | Norway
+ 73 | Jan Klaeboe      | jan.klaeboe@mpnl.net      | +47 2212 1555 | Drammensveien 126A, PB 211 Sentrum | Oslo    | N 0106   | Norway
+(3 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+#### 17.2
+
+- Which rooms can accommodate more than two people?
+- `SELECT * FROM rooms WHERE no_guests > 2;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM rooms WHERE no_guests > 2;
+ room_no |  rate  |  room_type   | no_guests
+---------+--------+--------------+-----------
+     205 |  85.00 | PREMIUM      |         3
+     206 |  85.00 | PREMIUM      |         3
+     207 |  85.00 | PREMIUM      |         3
+     211 |  98.00 | PREMIUM PLUS |         3
+     212 |  98.00 | PREMIUM PLUS |         3
+     411 | 123.00 | FAMILY       |         4
+     412 | 123.00 | FAMILY       |         4
+(7 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+#### 17.3
+
+- Which invoices are dated after one month ago?
+- `SELECT * FROM invoices WHERE invoice_date >= '2023-04-02';`
+- `SELECT * FROM invoices WHERE invoice_date <= CURRENT_DATE - INTERVAL '1 month';` (using DATE type)
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT * FROM invoices WHERE invoice_date >= '2023-04-02';
+ id | res_id | total  | invoice_date | paid
+----+--------+--------+--------------+------
+ 43 |     17 | 340.00 | 2023-04-05   | t
+ 44 |     99 | 440.00 | 2023-04-05   | t
+ 45 |     39 | 170.00 | 2023-04-06   | t
+ 46 |     38 | 110.00 | 2023-04-06   | t
+ 47 |     75 | 660.00 | 2023-04-06   | t
+ 48 |     41 | 615.00 | 2023-04-09   | t
+ 49 |    106 | 660.00 | 2023-04-10   | t
+ 50 |      2 | 246.00 | 2023-04-12   | t
+ 51 |     15 | 110.00 | 2023-04-12   | t
+ 52 |     57 | 246.00 | 2023-04-15   | t
+ 53 |     34 | 110.00 | 2023-04-16   | t
+ 54 |     58 |  85.00 | 2023-04-18   | t
+ 55 |     87 | 110.00 | 2023-04-20   | t
+ 56 |      3 | 369.00 | 2023-04-20   | t
+ 57 |    100 | 196.00 | 2023-04-21   | t
+ 58 |     45 | 660.00 | 2023-04-22   | t
+ 59 |     24 | 246.00 | 2023-04-23   | t
+ 60 |     32 | 110.00 | 2023-04-26   | t
+ 61 |     20 | 340.00 | 2023-04-27   | t
+ 62 |     56 | 490.00 | 2023-04-27   | t
+ 63 |     19 | 660.00 | 2023-04-28   | t
+(21 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+#### 17.4
+
+- How would last month's invoices change if we gave a discount of 15%
+- ``
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+insert here
+```
+
+</details><br>
+
+#### 17.5
+
+- List all customers whose second name starts with 'M' (hint: there's a space before the second name)
+- ``
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+insert here
+```
+
+</details><br>
