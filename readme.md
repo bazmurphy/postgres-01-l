@@ -3472,3 +3472,812 @@ postgres=#
 ```
 
 </details><br>
+
+---
+
+## 21. Eliminating Duplicates
+
+"Which nationalities visit our hotel?":
+
+`SELECT country FROM customers;`
+
+But how many values do you see returned for each country? 
+If two customers come from a particular country that country will appear twice in the output. 
+If more than two come from the same country then... But we only need to know the different countries.
+
+To see each country only once, use the keyword DISTINCT, as follows:
+
+`SELECT DISTINCT country FROM customers;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT DISTINCT country FROM customers;
+   country
+--------------
+ Spain
+ Switzerland
+ New Zealand
+ Italy
+ Russia
+ Belgium
+ Sweden
+ Norway
+ USA
+ France
+ Israel
+ Netherlands
+ South Africa
+ Austria
+ Poland
+ Australia
+ UK
+ Hong Kong
+ Ireland
+ Germany
+ Japan
+ Singapore
+ Denmark
+ Canada
+ Philippines
+ Finland
+ Portugal
+(27 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+The keyword DISTINCT must appear immediately after the keyword SELECT. If more than one column is selected then DISTINCT applies to the combined values of those columns
+
+---
+
+## 22. Ordering the Returned Rows
+
+If you want to see the data in a specific order
+e.g. "List all customers alphabetically by name within each country":
+
+```
+SELECT id, name, phone, email, country
+    FROM customers
+    ORDER BY country, name;
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT id, name, phone, email, country
+postgres-#     FROM customers
+postgres-#     ORDER BY country, name;
+ id  |          name           |       phone        |              email               |   country
+-----+-------------------------+--------------------+----------------------------------+--------------
+  69 | Adrian Huxley           | +61 2 9495 8555    | adrian.huxley@hmep.net           | Australia
+  67 | Anna O'Hara             | 02 9936 8555       | anna.o"hara@hzjw.net             | Australia
+  84 | Ben Calaghan            | 61-7-3844-6555     | ben.calaghan@bprq.net            | Australia
+  14 | Peter Ferguson          | 03 9520 4555       | peter.ferguson@mxnx.net          | Australia
+ 122 | Sean Clenahan           | 61-9-3844-6555     | sean.clenahan@gzyw.net           | Australia
+ 102 | Georg Pipps             | 6562-9555          | georg.pipps@uyvb.net             | Austria
+ 115 | Roland Mendel           | 7675-3555          | roland.mendel@wclf.net           | Austria
+  77 | Catherine Dewey         | (02) 5554 67       | catherine.dewey@ndft.net         | Belgium
+ 101 | Pascale Cartrain        | (071) 23 67 2555   | pascale.cartrain@oggv.net        | Belgium
+  65 | Elizabeth Lincoln       | (604) 555-4555     | elizabeth.lincoln@elct.net       | Canada
+  55 | Jean Fresni├¿re         | (514) 555-8054     | jean.fresni├¿re@uxsm.net         | Canada
+  45 | Yoshi Tamuri            | (604) 555-3392     | yoshi.tamuri@juuq.net            | Canada
+  24 | Jytte Petersen          | 31 12 3555         | jytte.petersen@cpbn.net          | Denmark
+  54 | Palle Ibsen             | 86 21 3555         | palle.ibsen@bjqn.net             | Denmark
+  85 | Kalle Suominen          | +358 9 8045 555    | kalle.suominen@acif.net          | Finland
+  40 | Matti Karttunen         | 90-224 8555        | matti.karttunen@xkig.net         | Finland
+  76 | Pirkko Koskitalo        | 981-443655         | pirkko.koskitalo@rcva.net        | Finland
+  59 | Annette Roulet          | 61.77.6555         | annette.roulet@lgha.net          | France
+  12 | Carine Schmitt          | 40.32.2555         | carine.schmitt@dftu.net          | France
+  62 | Daniel Da Silva         | +33 1 46 62 7555   | daniel.da.silva@hijy.net         | France
+  63 | Daniel Tonini           | 30.59.8555         | daniel.tonini@mxvw.net           | France
+ 106 | Dominique Perrier       | (1) 47.55.6555     | dominique.perrier@bdim.net       | France
+  49 | Fr├®d├®rique Citeaux    | 88.60.1555         | fr├®d├®rique.citeaux@vekn.net    | France
+  15 | Janine Labrune          | 40.67.8555         | janine.labrune@dlsh.net          | France
+  91 | Laurence Lebihan        | 91.24.4555         | laurence.lebihan@xmzx.net        | France
+   9 | Laurence Lebihan        | 91.24.4555         | laurence.lebihan@xmzx.net        | France
+  35 | Marie Bertrand          | (1) 42.34.2555     | marie.bertrand@glut.net          | France
+  34 | Martine Ranc├®          | 20.16.1555         | martine.ranc├®@xeqs.net          | France
+  25 | Mary Saveley            | 78.32.5555         | mary.saveley@yppl.net            | France
+  92 | Paul Henriot            | 26.47.1555         | paul.henriot@uwua.net            | France
+ 111 | Alexander Feuer         | 0342-555176        | alexander.feuer@hzrr.net         | Germany
+ 125 | Hanna Moos              | 0621-08555         | hanna.moos@fmga.net              | Germany
+  64 | Henriette Pfalzheim     | 0221-5554327       | henriette.pfalzheim@hmib.net     | Germany
+  53 | Horst Kloss             | 0372-555188        | horst.kloss@bpzv.net             | Germany
+  95 | Karin Josephs           | 0251-555259        | karin.josephs@gyfv.net           | Germany
+  75 | Mel Andersen            | 030-0074555        | mel.andersen@nggg.net            | Germany
+ 109 | Michael Donnermeyer     |  +49 89 61 08 9555 | michael.donnermeyer@lvpk.net     | Germany
+  66 | Peter Franken           | 089-0877555        | peter.franken@fszx.net           | Germany
+  86 | Philip Cramer           | 0555-09555         | philip.cramer@gmlf.net           | Germany
+  60 | Renate Messner          | 069-0555984        | renate.messner@ebse.net          | Germany
+ 107 | Rita M├╝ller            | 0711-555361        | rita.m├╝ller@gfsn.net            | Germany
+  19 | Roland Keitel           | +49 69 66 90 2555  | roland.keitel@riys.net           | Germany
+ 119 | Sven Ottlieb            | 0241-039123        | sven.ottlieb@dqyj.net            | Germany
+  50 | Mike Gao                | +852 2251 1555     | mike.gao@pdrv.net                | Hong Kong
+  42 | Dean Cassidy            | +353 1862 1555     | dean.cassidy@sntj.net            | Ireland
+  90 | Patricia McKenna        | 2967 555           | patricia.mckenna@eert.net        | Ireland
+ 127 | Raanan Altagar,G M      | + 972 9 959 8555   | raanan.altagar,g.m@mlap.net      | Israel
+ 123 | Franco Ricotti          | +39 022515555      | franco.ricotti@ycbk.net          | Italy
+  68 | Giovanni Rovelli        | 035-640555         | giovanni.rovelli@xrbz.net        | Italy
+ 104 | Maurizio Moroni         | 0522-556555        | maurizio.moroni@nqnk.net         | Italy
+  61 | Paolo Accorti           | 011-4988555        | paolo.accorti@xcuw.net           | Italy
+ 105 | Akiko Shimamura         | +81 3 3584 0555    | akiko.shimamura@pipl.net         | Japan
+  38 | Mory Kentary            | +81 06 6342 5555   | mory.kentary@nqfg.net            | Japan
+  74 | Bradley Schuyler        | +31 20 491 9555    | bradley.schuyler@stie.net        | Netherlands
+  81 | Mike Graham             | +64 9 312 5555     | mike.graham@nlpt.net             | New Zealand
+ 108 | Sarah McRoy             | 04 499 9555        | sarah.mcroy@fjnn.net             | New Zealand
+ 133 | Tony Snowden            | +64 9 5555500      | tony.snowden@rzcz.net            | New Zealand
+  94 | Wales MacKinlay         | 64-9-3763555       | wales.mackinlay@omis.net         | New Zealand
+  73 | Jan Klaeboe             | +47 2212 1555      | jan.klaeboe@mpnl.net             | Norway
+  16 | Jonas Bergulfsen        | 07-98 9555         | jonas.bergulfsen@dxbn.net        | Norway
+  31 | Veysel Oeztan           | +47 2267 3215      | veysel.oeztan@vqkn.net           | Norway
+ 103 | Arnold Cruz             | +63 2 555 3587     | arnold.cruz@awqa.net             | Philippines
+  18 | Zbyszek Piestrzeniewicz | (26) 642-7555      | zbyszek.piestrzeniewicz@askt.net | Poland
+  33 | Isabel de Castro        | (1) 356-5555       | isabel.de.castro@fpro.net        | Portugal
+  98 | Lino Rodriguez          | (1) 354-2555       | lino.rodriguez@xscn.net          | Portugal
+ 126 | Alexander Semenov       | +7 812 293 0521    | alexander.semenov@xgru.net       | Russia
+  48 | Brydey Walker           | +612 9411 1555     | brydey.walker@kwtj.net           | Singapore
+  26 | Eric Natividad          | +65 221 7555       | eric.natividad@swll.net          | Singapore
+  30 | Wendy Victorino         | +65 224 1555       | wendy.victorino@ueai.net         | Singapore
+  93 | Armand Kuger            | +27 21 550 3555    | armand.kuger@axkq.net            | South Africa
+  56 | Alejandra Camino        | (91) 745 6555      | alejandra.camino@omet.net        | Spain
+ 121 | Carmen Anton            | +34 913 728555     | carmen.anton@bhmy.net            | Spain
+  22 | Diego Freyre            | (91) 555 94 44     | diego.freyre@amyr.net            | Spain
+  51 | Eduardo Saavedra        | (93) 203 4555      | eduardo.saavedra@tiqa.net        | Spain
+  88 | Jesus Fernandez         | +34 913 728 555    | jesus.fernandez@cgxs.net         | Spain
+ 128 | Jos├® Pedro Roel        | (95) 555 82 82     | jos├®.pedro.roel@qjmk.net        | Spain
+   8 | Mart├¡n Sommer          | (91) 555 22 82     | martin.sommer@dfgg.net           | Spain
+ 118 | Mart├¡n Sommer          | (91) 555 22 82     | mart├¡n.sommer@wcoa.net          | Spain
+  23 | Christina Berglund      | 0921-12 3555       | christina.berglund@cggp.net      | Sweden
+ 113 | Martha Larsson          | 0695-34 6555       | martha.larsson@abhf.net          | Sweden
+  99 | Braun Urs               | 0452-076555        | braun.urs@aols.net               | Switzerland
+  71 | Ed Harrison             | +41 26 425 50 01   | ed.harrison@svjb.net             | Switzerland
+  72 | Mihael Holz             | 0897-034555        | mihael.holz@dnji.net             | Switzerland
+   3 | Alice Evans             | 0161 345 6789      | alice.evans001@hotmail.com       | UK
+  82 | Ann Brown               | (171) 555-0297     | ann.brown@xwkb.net               | UK
+  11 | Carlos Porter           | 070 2679 6812      | carlos.porter@ortynuf.com        | UK
+  44 | Elizabeth Devon         | (171) 555-2282     | elizabeth.devon@bpcb.net         | UK
+  58 | Helen Bennett           | (198) 555-8888     | helen.bennett@quet.net           | UK
+   1 | John Smith              | 0151 123 4567      | j.smith@johnsmith.org            | UK
+  10 | Keith Stewart           | 078 4679 1282      | keith.stewart@gmail.com          | UK
+   7 | Melinda Marsh           | 070 1513 5671      | mel.marsh-123@gmail.com          | UK
+   4 | Mohammed Trungpa        | 0161 456 7890      | mo.trungpa@hotmail.com           | UK
+   6 | Nadia Sethuraman        |                    | nadia.sethuraman@mail.com        | UK
+  41 | Rachel Ashworth         | (171) 555-1555     | rachel.ashworth@rzyb.net         | UK
+   5 | Steven King             | 01245 134 4678     | steve.king123@hotmail.com        | UK
+   2 | Sue Jones               | 0201 234 5678      | s.jones1234@gmail.com            | UK
+ 131 | Thomas Smith            | (171) 555-7555     | thomas.smith@nvze.net            | UK
+ 100 | Allen Nelson            | 6175558555         | allen.nelson@eruo.net            | USA
+  89 | Brian Chandler          | 2155554369         | brian.chandler@wdgi.net          | USA
+ 112 | Dan Lewis               | 2035554407         | dan.lewis@bqfi.net               | USA
+  97 | Dorothy Young           | 6035558647         | dorothy.young@cwtg.net           | USA
+  87 | Francisca Cervantes     | 2155554695         | francisca.cervantes@sxxp.net     | USA
+  13 | Jean King               | 07025 551 838      | jean.king@hjgp.net               | USA
+  27 | Jeff Young              | 0212 555 7413      | jeff.young@hahh.net              | USA
+  36 | Jerry Tseng             | 6175555555         | jerry.tseng@etea.net             | USA
+  80 | Julie Brown             | 6505551386         | julie.brown@zbfm.net             | USA
+  37 | Julie King              | 2035552570         | julie.king@yhfj.net              | USA
+  20 | Julie Murphy            | 0650 555 5787      | julie.murphy@lrtc.net            | USA
+  47 | Julie Young             | 6265557265         | julie.young@rmhl.net             | USA
+  29 | Juri Hashimoto          | 0650 555 6809      | juri.hashimoto@fttv.net          | USA
+  96 | Juri Yoshido            | 6175559555         | juri.yoshido@klqb.net            | USA
+  32 | Keith Franco            | 2035557845         | keith.franco@dlha.net            | USA
+  28 | Kelvin Leong            | 0215 555 1555      | kelvin.leong@mqzy.net            | USA
+  21 | Kwai Lee                | 0212 555 7818      | kwai.lee@imic.net                | USA
+ 116 | Leslie Murphy           | 2035559545         | leslie.murphy@lbgq.net           | USA
+  43 | Leslie Taylor           | 6175558428         | leslie.taylor@tunp.net           | USA
+ 110 | Maria Hernandez         | 2125558493         | maria.hernandez@uzkx.net         | USA
+  70 | Marta Hernandez         | 6175558555         | marta.hernandez@xqti.net         | USA
+  52 | Mary Young              | 3105552373         | mary.young@ratm.net              | USA
+  39 | Michael Frick           | 2125551500         | michael.frick@jdep.net           | USA
+  46 | Miguel Barajas          | 6175557555         | miguel.barajas@rsyq.net          | USA
+ 129 | Rosa Salazar            | 2155559857         | rosa.salazar@fzik.net            | USA
+  78 | Steve Frick             | 9145554562         | steve.frick@unam.net             | USA
+ 124 | Steve Thompson          | 3105553722         | steve.thompson@nirj.net          | USA
+ 114 | Sue Frick               | 4085553659         | sue.frick@npgp.net               | USA
+ 130 | Sue Taylor              | 4155554312         | sue.taylor@wllx.net              | USA
+  17 | Susan Nelson            | 0415 555 1450      | susan.nelson@fsve.net            | USA
+ 132 | Valarie Franco          | 6175552555         | valarie.franco@qait.net          | USA
+  57 | Valarie Thompson        | 7605558146         | valarie.thompson@brll.net        | USA
+ 120 | Violeta Benitez         | 5085552555         | violeta.benitez@yqsd.net         | USA
+  83 | William Brown           | 2015559350         | william.brown@wrbo.net           | USA
+  79 | Wing Huang              | 5085559555         | wing.huang@romc.net              | USA
+ 117 | Yu Choi                 | 2125551957         | yu.choi@vmpd.net                 | USA
+(133 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+You can can add ASC (ascending, the default) or DESC (descending) after each column name in the ORDER BY clause to control the direction of sorting.
+
+For example:
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT id, name, country, city
+postgres-#     FROM customers
+postgres-#     ORDER BY country DESC, city;
+ id  |          name           |   country    |       city
+-----+-------------------------+--------------+-------------------
+  28 | Kelvin Leong            | USA          | Allentown
+ 132 | Valarie Franco          | USA          | Boston
+  96 | Juri Yoshido            | USA          | Boston
+ 100 | Allen Nelson            | USA          | Brickhaven
+  46 | Miguel Barajas          | USA          | Brickhaven
+  43 | Leslie Taylor           | USA          | Brickhaven
+  37 | Julie King              | USA          | Bridgewater
+ 130 | Sue Taylor              | USA          | Brisbane
+ 124 | Steve Thompson          | USA          | Burbank
+  29 | Juri Hashimoto          | USA          | Burlingame
+  36 | Jerry Tseng             | USA          | Cambridge
+  70 | Marta Hernandez         | USA          | Cambridge
+ 112 | Dan Lewis               | USA          | Glendale
+  52 | Mary Young              | USA          | Glendale
+  13 | Jean King               | USA          | Las Vegas
+  89 | Brian Chandler          | USA          | Los Angeles
+  97 | Dorothy Young           | USA          | Nashua
+ 120 | Violeta Benitez         | USA          | New Bedford
+  79 | Wing Huang              | USA          | New Bedford
+  32 | Keith Franco            | USA          | New Haven
+ 116 | Leslie Murphy           | USA          | New Haven
+  83 | William Brown           | USA          | Newark
+ 110 | Maria Hernandez         | USA          | NYC
+  39 | Michael Frick           | USA          | NYC
+  27 | Jeff Young              | USA          | NYC
+  21 | Kwai Lee                | USA          | NYC
+ 117 | Yu Choi                 | USA          | NYC
+  47 | Julie Young             | USA          | Pasadena
+  87 | Francisca Cervantes     | USA          | Philadelphia
+ 129 | Rosa Salazar            | USA          | Philadelphia
+  57 | Valarie Thompson        | USA          | San Diego
+  80 | Julie Brown             | USA          | San Francisco
+  20 | Julie Murphy            | USA          | San Francisco
+ 114 | Sue Frick               | USA          | San Jose
+  17 | Susan Nelson            | USA          | San Rafael
+  78 | Steve Frick             | USA          | White Plains
+  58 | Helen Bennett           | UK           | Cowes
+  44 | Elizabeth Devon         | UK           | Liverpool
+   1 | John Smith              | UK           | Liverpool
+   2 | Sue Jones               | UK           | London
+ 131 | Thomas Smith            | UK           | London
+  82 | Ann Brown               | UK           | London
+   4 | Mohammed Trungpa        | UK           | Manchester
+  41 | Rachel Ashworth         | UK           | Manchester
+   6 | Nadia Sethuraman        | UK           | Manchester
+   3 | Alice Evans             | UK           | Manchester
+   5 | Steven King             | UK           | Newtown
+   7 | Melinda Marsh           | UK           | Oldham
+  11 | Carlos Porter           | UK           | Salisbury
+  10 | Keith Stewart           | UK           | Tadworth
+  99 | Braun Urs               | Switzerland  | Bern
+  71 | Ed Harrison             | Switzerland  | Fribourg
+  72 | Mihael Holz             | Switzerland  | Gen├¿ve
+ 113 | Martha Larsson          | Sweden       | Br├ñcke
+  23 | Christina Berglund      | Sweden       | Lule├Ñ
+  51 | Eduardo Saavedra        | Spain        | Barcelona
+ 121 | Carmen Anton            | Spain        | Madrid
+   8 | Mart├¡n Sommer          | Spain        | Madrid
+  88 | Jesus Fernandez         | Spain        | Madrid
+ 118 | Mart├¡n Sommer          | Spain        | Madrid
+  56 | Alejandra Camino        | Spain        | Madrid
+  22 | Diego Freyre            | Spain        | Madrid
+ 128 | Jos├® Pedro Roel        | Spain        | Sevilla
+  93 | Armand Kuger            | South Africa | Hatfield
+  30 | Wendy Victorino         | Singapore    | Singapore
+  48 | Brydey Walker           | Singapore    | Singapore
+  26 | Eric Natividad          | Singapore    | Singapore
+ 126 | Alexander Semenov       | Russia       | Saint Petersburg
+  98 | Lino Rodriguez          | Portugal     | Lisboa
+  33 | Isabel de Castro        | Portugal     | Lisboa
+  18 | Zbyszek Piestrzeniewicz | Poland       | Warszawa
+ 103 | Arnold Cruz             | Philippines  | Makati City
+  31 | Veysel Oeztan           | Norway       | Bergen
+  73 | Jan Klaeboe             | Norway       | Oslo
+  16 | Jonas Bergulfsen        | Norway       | Stavern
+  94 | Wales MacKinlay         | New Zealand  | Auckland
+ 133 | Tony Snowden            | New Zealand  | Auckland
+  81 | Mike Graham             | New Zealand  | Auckland
+ 108 | Sarah McRoy             | New Zealand  | Wellington
+  74 | Bradley Schuyler        | Netherlands  | Amsterdam
+  38 | Mory Kentary            | Japan        | Kita-ku
+ 105 | Akiko Shimamura         | Japan        | Minato-ku
+  68 | Giovanni Rovelli        | Italy        | Bergamo
+ 123 | Franco Ricotti          | Italy        | Milan
+ 104 | Maurizio Moroni         | Italy        | Reggio Emilia
+  61 | Paolo Accorti           | Italy        | Torino
+ 127 | Raanan Altagar,G M      | Israel       | Herzlia
+  90 | Patricia McKenna        | Ireland      | Cork
+  42 | Dean Cassidy            | Ireland      | Dublin
+  50 | Mike Gao                | Hong Kong    | Central Hong Kong
+ 119 | Sven Ottlieb            | Germany      | Aachen
+  75 | Mel Andersen            | Germany      | Berlin
+  86 | Philip Cramer           | Germany      | Brandenburg
+  53 | Horst Kloss             | Germany      | Cunewalde
+  19 | Roland Keitel           | Germany      | Frankfurt
+  60 | Renate Messner          | Germany      | Frankfurt
+  64 | Henriette Pfalzheim     | Germany      | K├Âln
+ 111 | Alexander Feuer         | Germany      | Leipzig
+  66 | Peter Franken           | Germany      | M├╝nchen
+  95 | Karin Josephs           | Germany      | M├╝nster
+ 125 | Hanna Moos              | Germany      | Mannheim
+ 109 | Michael Donnermeyer     | Germany      | Munich
+ 107 | Rita M├╝ller            | Germany      | Stuttgart
+  34 | Martine Ranc├®          | France       | Lille
+  25 | Mary Saveley            | France       | Lyon
+  91 | Laurence Lebihan        | France       | Marseille
+   9 | Laurence Lebihan        | France       | Marseille
+  15 | Janine Labrune          | France       | Nantes
+  12 | Carine Schmitt          | France       | Nantes
+  35 | Marie Bertrand          | France       | Paris
+  62 | Daniel Da Silva         | France       | Paris
+ 106 | Dominique Perrier       | France       | Paris
+  92 | Paul Henriot            | France       | Reims
+  49 | Fr├®d├®rique Citeaux    | France       | Strasbourg
+  59 | Annette Roulet          | France       | Toulouse
+  63 | Daniel Tonini           | France       | Versailles
+  85 | Kalle Suominen          | Finland      | Espoo
+  40 | Matti Karttunen         | Finland      | Helsinki
+  76 | Pirkko Koskitalo        | Finland      | Oulu
+  54 | Palle Ibsen             | Denmark      | ├àrhus
+  24 | Jytte Petersen          | Denmark      | Kobenhavn
+  55 | Jean Fresni├¿re         | Canada       | Montr├®al
+  65 | Elizabeth Lincoln       | Canada       | Tsawassen
+  45 | Yoshi Tamuri            | Canada       | Vancouver
+  77 | Catherine Dewey         | Belgium      | Bruxelles
+ 101 | Pascale Cartrain        | Belgium      | Charleroi
+ 115 | Roland Mendel           | Austria      | Graz
+ 102 | Georg Pipps             | Austria      | Salzburg
+  69 | Adrian Huxley           | Australia    | Chatswood
+ 122 | Sean Clenahan           | Australia    | Glen Waverly
+  14 | Peter Ferguson          | Australia    | Melbourne
+  67 | Anna O'Hara             | Australia    | North Sydney
+  84 | Ben Calaghan            | Australia    | South Brisbane
+(133 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+This will sort the data into descending alphabetic order of country then ascending order of city name within each country.
+
+### Limiting the Number of Rows
+
+You can reduce the number of rows returned by using the `LIMIT` clause at the end of the query:
+
+```
+SELECT id, name, phone, email, country
+  FROM customers
+  ORDER BY country, name
+  LIMIT 20;
+```
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT id, name, phone, email, country
+postgres-#   FROM customers
+postgres-#   ORDER BY country, name
+postgres-#   LIMIT 20;
+ id  |       name        |      phone       |           email            |  country
+-----+-------------------+------------------+----------------------------+-----------
+  69 | Adrian Huxley     | +61 2 9495 8555  | adrian.huxley@hmep.net     | Australia
+  67 | Anna O'Hara       | 02 9936 8555     | anna.o"hara@hzjw.net       | Australia
+  84 | Ben Calaghan      | 61-7-3844-6555   | ben.calaghan@bprq.net      | Australia
+  14 | Peter Ferguson    | 03 9520 4555     | peter.ferguson@mxnx.net    | Australia
+ 122 | Sean Clenahan     | 61-9-3844-6555   | sean.clenahan@gzyw.net     | Australia
+ 102 | Georg Pipps       | 6562-9555        | georg.pipps@uyvb.net       | Austria
+ 115 | Roland Mendel     | 7675-3555        | roland.mendel@wclf.net     | Austria
+  77 | Catherine Dewey   | (02) 5554 67     | catherine.dewey@ndft.net   | Belgium
+ 101 | Pascale Cartrain  | (071) 23 67 2555 | pascale.cartrain@oggv.net  | Belgium
+  65 | Elizabeth Lincoln | (604) 555-4555   | elizabeth.lincoln@elct.net | Canada
+  55 | Jean Fresni├¿re   | (514) 555-8054   | jean.fresni├¿re@uxsm.net   | Canada
+  45 | Yoshi Tamuri      | (604) 555-3392   | yoshi.tamuri@juuq.net      | Canada
+  24 | Jytte Petersen    | 31 12 3555       | jytte.petersen@cpbn.net    | Denmark
+  54 | Palle Ibsen       | 86 21 3555       | palle.ibsen@bjqn.net       | Denmark
+  85 | Kalle Suominen    | +358 9 8045 555  | kalle.suominen@acif.net    | Finland
+  40 | Matti Karttunen   | 90-224 8555      | matti.karttunen@xkig.net   | Finland
+  76 | Pirkko Koskitalo  | 981-443655       | pirkko.koskitalo@rcva.net  | Finland
+  59 | Annette Roulet    | 61.77.6555       | annette.roulet@lgha.net    | France
+  12 | Carine Schmitt    | 40.32.2555       | carine.schmitt@dftu.net    | France
+  62 | Daniel Da Silva   | +33 1 46 62 7555 | daniel.da.silva@hijy.net   | France
+(20 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+The `LIMIT` clause is not normally used without the `ORDER BY` clause - without the `ORDER BY` clause rows can be returned in any arbitrary sequence.
+
+Not all SQL implementations of SQL support `LIMIT`, some use `TOP` while Oracle uses `ROWNUM`.
+
+---
+
+## 23. Exercise 5
+
+### 23.1
+- List the different room types and rates for all rooms avoiding duplicates.
+- `SELECT DISTINCT rate, room_type FROM rooms;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT DISTINCT rate, room_type FROM rooms;
+  rate  |  room_type
+--------+--------------
+ 110.00 | PREMIER
+ 123.00 | FAMILY
+  85.00 | PREMIUM
+  98.00 | PREMIUM PLUS
+ 123.00 | PREMIER PLUS
+(5 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### 23.2
+- List customers' names addresses and phone numbers in alphabetic order of names.
+- `SELECT name, address, phone FROM customers ORDER BY name;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT name, address, phone FROM customers ORDER BY name;
+          name           |                  address                   |       phone
+-------------------------+--------------------------------------------+--------------------
+ Adrian Huxley           | Monitor Money Building, 815 Pacific Hwy    | +61 2 9495 8555
+ Akiko Shimamura         | 2-2-8 Roppongi                             | +81 3 3584 0555
+ Alejandra Camino        | Gran V├¡a, 1                               | (91) 745 6555
+ Alexander Feuer         | Heerstr. 22                                | 0342-555176
+ Alexander Semenov       | 2 Pobedy Square                            | +7 812 293 0521
+ Alice Evans             | 3 High Road                                | 0161 345 6789
+ Allen Nelson            | 7825 Douglas Av.                           | 6175558555
+ Ann Brown               | 35 King George                             | (171) 555-0297
+ Anna O'Hara             | 201 Miller Street, Level 15                | 02 9936 8555
+ Annette Roulet          | 1 rue Alsace-Lorraine                      | 61.77.6555
+ Armand Kuger            | 1250 Pretorius Street                      | +27 21 550 3555
+ Arnold Cruz             | 15 McCallum Street, NatWest Center #13-03  | +63 2 555 3587
+ Ben Calaghan            | 31 Duncan St. West End                     | 61-7-3844-6555
+ Bradley Schuyler        | Kingsfordweg 151                           | +31 20 491 9555
+ Braun Urs               | Hauptstr. 29                               | 0452-076555
+ Brian Chandler          | 6047 Douglas Av.                           | 2155554369
+ Brydey Walker           | Suntec Tower Three, 8 Temasek              | +612 9411 1555
+ Carine Schmitt          | 54, rue Royale                             | 40.32.2555
+ Carlos Porter           | 81 Bath Rd                                 | 070 2679 6812
+ Carmen Anton            | c/ Gobelas, 19-1 Urb. La Florida           | +34 913 728555
+ Catherine Dewey         | Rue Joseph-Bens 532                        | (02) 5554 67
+ Christina Berglund      | Berguvsv├ñgen 8                            | 0921-12 3555
+ Dan Lewis               | 2440 Pompton St.                           | 2035554407
+ Daniel Da Silva         | 27 rue du Colonel Pierre Avia              | +33 1 46 62 7555
+ Daniel Tonini           | 67, avenue de lEurope                      | 30.59.8555
+ Dean Cassidy            | 25 Maiden Lane, Floor No. 4                | +353 1862 1555
+ Diego Freyre            | C/ Moralzarzal, 86                         | (91) 555 94 44
+ Dominique Perrier       | 25, rue Lauriston                          | (1) 47.55.6555
+ Dorothy Young           | 2304 Long Airport Avenue                   | 6035558647
+ Ed Harrison             | Rte des Arsenaux 41                        | +41 26 425 50 01
+ Eduardo Saavedra        | Rambla de Catalu├▒a, 23                    | (93) 203 4555
+ Elizabeth Devon         | 12, Berkeley Gardens Blvd                  | (171) 555-2282
+ Elizabeth Lincoln       | 23 Tsawassen Blvd.                         | (604) 555-4555
+ Eric Natividad          | Bronz Sok., Bronz Apt. 3/6 Tesvikiye       | +65 221 7555
+ Fr├®d├®rique Citeaux    | 24, place Kl├®ber                          | 88.60.1555
+ Francisca Cervantes     | 782 First Street                           | 2155554695
+ Franco Ricotti          | 20093 Cologno Monzese, Alessandro Volta 16 | +39 022515555
+ Georg Pipps             | Geislweg 14                                | 6562-9555
+ Giovanni Rovelli        | Via Ludovico il Moro 22                    | 035-640555
+ Hanna Moos              | Forsterstr. 57                             | 0621-08555
+ Helen Bennett           | Garden House, Crowther Way 23              | (198) 555-8888
+ Henriette Pfalzheim     | Mehrheimerstr. 369                         | 0221-5554327
+ Horst Kloss             | Taucherstra├ƒe 10                          | 0372-555188
+ Isabel de Castro        | Estrada da sa├║de n. 58                    | (1) 356-5555
+ Jan Klaeboe             | Drammensveien 126A, PB 211 Sentrum         | +47 2212 1555
+ Janine Labrune          | 67, rue des Cinquante Otages               | 40.67.8555
+ Jean Fresni├¿re         | 43 rue St. Laurent                         | (514) 555-8054
+ Jean King               | 8489 Strong St.                            | 07025 551 838
+ Jeff Young              | 4092 Furth Circle, Suite 400               | 0212 555 7413
+ Jerry Tseng             | 4658 Baden Av.                             | 6175555555
+ Jesus Fernandez         | Merchants House, 27-30 Merchant's Quay     | +34 913 728 555
+ John Smith              | 11 New Road                                | 0151 123 4567
+ Jonas Bergulfsen        | Erling Skakkes gate 78                     | 07-98 9555
+ Jos├® Pedro Roel        | C/ Romero, 33                              | (95) 555 82 82
+ Julie Brown             | 7734 Strong St.                            | 6505551386
+ Julie King              | 25593 South Bay Ln.                        | 2035552570
+ Julie Murphy            | 5557 North Pendale Street                  | 0650 555 5787
+ Julie Young             | 78934 Hillside Dr.                         | 6265557265
+ Juri Hashimoto          | 9408 Furth Circle                          | 0650 555 6809
+ Juri Yoshido            | 8616 Spinnaker Dr.                         | 6175559555
+ Jytte Petersen          | Vinb├ªltet 34                              | 31 12 3555
+ Kalle Suominen          | Software Engineering Center, SEC Oy        | +358 9 8045 555
+ Karin Josephs           | Luisenstr. 48                              | 0251-555259
+ Keith Franco            | 149 Spinnaker Dr., Suite 101               | 2035557845
+ Keith Stewart           | 84 Town Lane                               | 078 4679 1282
+ Kelvin Leong            | 7586 Pompton St.                           | 0215 555 1555
+ Kwai Lee                | 897 Long Airport Avenue                    | 0212 555 7818
+ Laurence Lebihan        | 12, rue des Bouchers                       | 91.24.4555
+ Laurence Lebihan        | 12, rue des Bouchers                       | 91.24.4555
+ Leslie Murphy           | 567 North Pendale Street                   | 2035559545
+ Leslie Taylor           | 16780 Pompton St.                          | 6175558428
+ Lino Rodriguez          | Jardim das rosas n. 32                     | (1) 354-2555
+ Maria Hernandez         | 5905 Pompton St., Suite 750                | 2125558493
+ Marie Bertrand          | 265, boulevard Charonne                    | (1) 42.34.2555
+ Marta Hernandez         | 39323 Spinnaker Dr.                        | 6175558555
+ Mart├¡n Sommer          | C/ Araquil, 67                             | (91) 555 22 82
+ Mart├¡n Sommer          | C/ Romero, 33                              | (91) 555 22 82
+ Martha Larsson          | ├àkergatan 24                              | 0695-34 6555
+ Martine Ranc├®          | 184, chauss├®e de Tournai                  | 20.16.1555
+ Mary Saveley            | 2, rue du Commerce                         | 78.32.5555
+ Mary Young              | 4097 Douglas Av.                           | 3105552373
+ Matti Karttunen         | Keskuskatu 45                              | 90-224 8555
+ Maurizio Moroni         | Strada Provinciale 124                     | 0522-556555
+ Mel Andersen            | Obere Str. 57                              | 030-0074555
+ Melinda Marsh           | 7 Preston Road                             | 070 1513 5671
+ Michael Donnermeyer     | Hansastr. 15                               |  +49 89 61 08 9555
+ Michael Frick           | 2678 Kingston Rd., Suite 101               | 2125551500
+ Miguel Barajas          | 7635 Spinnaker Dr.                         | 6175557555
+ Mihael Holz             | Grenzacherweg 237                          | 0897-034555
+ Mike Gao                | Bank of China Tower, 1 Garden Road         | +852 2251 1555
+ Mike Graham             | 162-164 Grafton Road, Level 2              | +64 9 312 5555
+ Mohammed Trungpa        | 25 Blue Road                               | 0161 456 7890
+ Mory Kentary            | 1-6-20 Dojima                              | +81 06 6342 5555
+ Nadia Sethuraman        | 135 Green Street                           |
+ Palle Ibsen             | Smagsloget 45                              | 86 21 3555
+ Paolo Accorti           | Via Monte Bianco 34                        | 011-4988555
+ Pascale Cartrain        | Boulevard Tirou, 255                       | (071) 23 67 2555
+ Patricia McKenna        | 8 Johnstown Road                           | 2967 555
+ Paul Henriot            | 59 rue de l'Abbaye                         | 26.47.1555
+ Peter Ferguson          | 636 St Kilda Road, Level 3                 | 03 9520 4555
+ Peter Franken           | Berliner Platz 43                          | 089-0877555
+ Philip Cramer           | Maubelstr. 90                              | 0555-09555
+ Pirkko Koskitalo        | Torikatu 38                                | 981-443655
+ Raanan Altagar,G M      | 3 Hagalim Blv.                             | + 972 9 959 8555
+ Rachel Ashworth         | Fauntleroy Circus                          | (171) 555-1555
+ Renate Messner          | Magazinweg 7                               | 069-0555984
+ Rita M├╝ller            | Adenauerallee 900                          | 0711-555361
+ Roland Keitel           | Lyonerstr. 34                              | +49 69 66 90 2555
+ Roland Mendel           | Kirchgasse 6                               | 7675-3555
+ Rosa Salazar            | 11328 Douglas Av.                          | 2155559857
+ Sarah McRoy             | 101 Lambton Quay, Level 11                 | 04 499 9555
+ Sean Clenahan           | 7 Allen Street                             | 61-9-3844-6555
+ Steve Frick             | 3758 North Pendale Street                  | 9145554562
+ Steve Thompson          | 3675 Furth Circle                          | 3105553722
+ Steven King             | 19 Bed Street                              | 01245 134 4678
+ Sue Frick               | 3086 Ingle Ln.                             | 4085553659
+ Sue Jones               | 120 Old Street                             | 0201 234 5678
+ Sue Taylor              | 2793 Furth Circle                          | 4155554312
+ Susan Nelson            | 5677 Strong St.                            | 0415 555 1450
+ Sven Ottlieb            | Walserweg 21                               | 0241-039123
+ Thomas Smith            | 120 Hanover Sq.                            | (171) 555-7555
+ Tony Snowden            | Arenales 1938 3'A'                         | +64 9 5555500
+ Valarie Franco          | 6251 Ingle Ln.                             | 6175552555
+ Valarie Thompson        | 361 Furth Circle                           | 7605558146
+ Veysel Oeztan           | Brehmen St. 121, PR 334 Sentrum            | +47 2267 3215
+ Violeta Benitez         | 1785 First Street                          | 5085552555
+ Wales MacKinlay         | 199 Great North Road                       | 64-9-3763555
+ Wendy Victorino         | 106 Linden Road Sandown, 2nd Floor         | +65 224 1555
+ William Brown           | 7476 Moss Rd.                              | 2015559350
+ Wing Huang              | 4575 Hillside Dr.                          | 5085559555
+ Yoshi Tamuri            | 1900 Oak St.                               | (604) 555-3392
+ Yu Choi                 | 5290 North Pendale Street, Suite 200       | 2125551957
+ Zbyszek Piestrzeniewicz | ul. Filtrowa 68                            | (26) 642-7555
+(133 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+### 23.3
+- List customers' names, addresses, city and country in ascending order of country then reverse order of city within country.
+- `SELECT name, address, city, country FROM customers ORDER BY country, city DESC;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT name, address, city, country FROM customers ORDER BY country, city DESC;
+          name           |                  address                   |       city        |   country
+-------------------------+--------------------------------------------+-------------------+--------------
+ Ben Calaghan            | 31 Duncan St. West End                     | South Brisbane    | Australia
+ Anna O'Hara             | 201 Miller Street, Level 15                | North Sydney      | Australia
+ Peter Ferguson          | 636 St Kilda Road, Level 3                 | Melbourne         | Australia
+ Sean Clenahan           | 7 Allen Street                             | Glen Waverly      | Australia
+ Adrian Huxley           | Monitor Money Building, 815 Pacific Hwy    | Chatswood         | Australia
+ Georg Pipps             | Geislweg 14                                | Salzburg          | Austria
+ Roland Mendel           | Kirchgasse 6                               | Graz              | Austria
+ Pascale Cartrain        | Boulevard Tirou, 255                       | Charleroi         | Belgium
+ Catherine Dewey         | Rue Joseph-Bens 532                        | Bruxelles         | Belgium
+ Yoshi Tamuri            | 1900 Oak St.                               | Vancouver         | Canada
+ Elizabeth Lincoln       | 23 Tsawassen Blvd.                         | Tsawassen         | Canada
+ Jean Fresni├¿re         | 43 rue St. Laurent                         | Montr├®al         | Canada
+ Jytte Petersen          | Vinb├ªltet 34                              | Kobenhavn         | Denmark
+ Palle Ibsen             | Smagsloget 45                              | ├àrhus            | Denmark
+ Pirkko Koskitalo        | Torikatu 38                                | Oulu              | Finland
+ Matti Karttunen         | Keskuskatu 45                              | Helsinki          | Finland
+ Kalle Suominen          | Software Engineering Center, SEC Oy        | Espoo             | Finland
+ Daniel Tonini           | 67, avenue de lEurope                      | Versailles        | France
+ Annette Roulet          | 1 rue Alsace-Lorraine                      | Toulouse          | France
+ Fr├®d├®rique Citeaux    | 24, place Kl├®ber                          | Strasbourg        | France
+ Paul Henriot            | 59 rue de l'Abbaye                         | Reims             | France
+ Daniel Da Silva         | 27 rue du Colonel Pierre Avia              | Paris             | France
+ Dominique Perrier       | 25, rue Lauriston                          | Paris             | France
+ Marie Bertrand          | 265, boulevard Charonne                    | Paris             | France
+ Janine Labrune          | 67, rue des Cinquante Otages               | Nantes            | France
+ Carine Schmitt          | 54, rue Royale                             | Nantes            | France
+ Laurence Lebihan        | 12, rue des Bouchers                       | Marseille         | France
+ Laurence Lebihan        | 12, rue des Bouchers                       | Marseille         | France
+ Mary Saveley            | 2, rue du Commerce                         | Lyon              | France
+ Martine Ranc├®          | 184, chauss├®e de Tournai                  | Lille             | France
+ Rita M├╝ller            | Adenauerallee 900                          | Stuttgart         | Germany
+ Michael Donnermeyer     | Hansastr. 15                               | Munich            | Germany
+ Hanna Moos              | Forsterstr. 57                             | Mannheim          | Germany
+ Karin Josephs           | Luisenstr. 48                              | M├╝nster          | Germany
+ Peter Franken           | Berliner Platz 43                          | M├╝nchen          | Germany
+ Alexander Feuer         | Heerstr. 22                                | Leipzig           | Germany
+ Henriette Pfalzheim     | Mehrheimerstr. 369                         | K├Âln             | Germany
+ Roland Keitel           | Lyonerstr. 34                              | Frankfurt         | Germany
+ Renate Messner          | Magazinweg 7                               | Frankfurt         | Germany
+ Horst Kloss             | Taucherstra├ƒe 10                          | Cunewalde         | Germany
+ Philip Cramer           | Maubelstr. 90                              | Brandenburg       | Germany
+ Mel Andersen            | Obere Str. 57                              | Berlin            | Germany
+ Sven Ottlieb            | Walserweg 21                               | Aachen            | Germany
+ Mike Gao                | Bank of China Tower, 1 Garden Road         | Central Hong Kong | Hong Kong
+ Dean Cassidy            | 25 Maiden Lane, Floor No. 4                | Dublin            | Ireland
+ Patricia McKenna        | 8 Johnstown Road                           | Cork              | Ireland
+ Raanan Altagar,G M      | 3 Hagalim Blv.                             | Herzlia           | Israel
+ Paolo Accorti           | Via Monte Bianco 34                        | Torino            | Italy
+ Maurizio Moroni         | Strada Provinciale 124                     | Reggio Emilia     | Italy
+ Franco Ricotti          | 20093 Cologno Monzese, Alessandro Volta 16 | Milan             | Italy
+ Giovanni Rovelli        | Via Ludovico il Moro 22                    | Bergamo           | Italy
+ Akiko Shimamura         | 2-2-8 Roppongi                             | Minato-ku         | Japan
+ Mory Kentary            | 1-6-20 Dojima                              | Kita-ku           | Japan
+ Bradley Schuyler        | Kingsfordweg 151                           | Amsterdam         | Netherlands
+ Sarah McRoy             | 101 Lambton Quay, Level 11                 | Wellington        | New Zealand
+ Mike Graham             | 162-164 Grafton Road, Level 2              | Auckland          | New Zealand
+ Tony Snowden            | Arenales 1938 3'A'                         | Auckland          | New Zealand
+ Wales MacKinlay         | 199 Great North Road                       | Auckland          | New Zealand
+ Jonas Bergulfsen        | Erling Skakkes gate 78                     | Stavern           | Norway
+ Jan Klaeboe             | Drammensveien 126A, PB 211 Sentrum         | Oslo              | Norway
+ Veysel Oeztan           | Brehmen St. 121, PR 334 Sentrum            | Bergen            | Norway
+ Arnold Cruz             | 15 McCallum Street, NatWest Center #13-03  | Makati City       | Philippines
+ Zbyszek Piestrzeniewicz | ul. Filtrowa 68                            | Warszawa          | Poland
+ Lino Rodriguez          | Jardim das rosas n. 32                     | Lisboa            | Portugal
+ Isabel de Castro        | Estrada da sa├║de n. 58                    | Lisboa            | Portugal
+ Alexander Semenov       | 2 Pobedy Square                            | Saint Petersburg  | Russia
+ Eric Natividad          | Bronz Sok., Bronz Apt. 3/6 Tesvikiye       | Singapore         | Singapore
+ Wendy Victorino         | 106 Linden Road Sandown, 2nd Floor         | Singapore         | Singapore
+ Brydey Walker           | Suntec Tower Three, 8 Temasek              | Singapore         | Singapore
+ Armand Kuger            | 1250 Pretorius Street                      | Hatfield          | South Africa
+ Jos├® Pedro Roel        | C/ Romero, 33                              | Sevilla           | Spain
+ Mart├¡n Sommer          | C/ Romero, 33                              | Madrid            | Spain
+ Jesus Fernandez         | Merchants House, 27-30 Merchant's Quay     | Madrid            | Spain
+ Diego Freyre            | C/ Moralzarzal, 86                         | Madrid            | Spain
+ Mart├¡n Sommer          | C/ Araquil, 67                             | Madrid            | Spain
+ Carmen Anton            | c/ Gobelas, 19-1 Urb. La Florida           | Madrid            | Spain
+ Alejandra Camino        | Gran V├¡a, 1                               | Madrid            | Spain
+ Eduardo Saavedra        | Rambla de Catalu├▒a, 23                    | Barcelona         | Spain
+ Christina Berglund      | Berguvsv├ñgen 8                            | Lule├Ñ            | Sweden
+ Martha Larsson          | ├àkergatan 24                              | Br├ñcke           | Sweden
+ Mihael Holz             | Grenzacherweg 237                          | Gen├¿ve           | Switzerland
+ Ed Harrison             | Rte des Arsenaux 41                        | Fribourg          | Switzerland
+ Braun Urs               | Hauptstr. 29                               | Bern              | Switzerland
+ Keith Stewart           | 84 Town Lane                               | Tadworth          | UK
+ Carlos Porter           | 81 Bath Rd                                 | Salisbury         | UK
+ Melinda Marsh           | 7 Preston Road                             | Oldham            | UK
+ Steven King             | 19 Bed Street                              | Newtown           | UK
+ Nadia Sethuraman        | 135 Green Street                           | Manchester        | UK
+ Rachel Ashworth         | Fauntleroy Circus                          | Manchester        | UK
+ Alice Evans             | 3 High Road                                | Manchester        | UK
+ Mohammed Trungpa        | 25 Blue Road                               | Manchester        | UK
+ Thomas Smith            | 120 Hanover Sq.                            | London            | UK
+ Sue Jones               | 120 Old Street                             | London            | UK
+ Ann Brown               | 35 King George                             | London            | UK
+ John Smith              | 11 New Road                                | Liverpool         | UK
+ Elizabeth Devon         | 12, Berkeley Gardens Blvd                  | Liverpool         | UK
+ Helen Bennett           | Garden House, Crowther Way 23              | Cowes             | UK
+ Steve Frick             | 3758 North Pendale Street                  | White Plains      | USA
+ Susan Nelson            | 5677 Strong St.                            | San Rafael        | USA
+ Sue Frick               | 3086 Ingle Ln.                             | San Jose          | USA
+ Julie Murphy            | 5557 North Pendale Street                  | San Francisco     | USA
+ Julie Brown             | 7734 Strong St.                            | San Francisco     | USA
+ Valarie Thompson        | 361 Furth Circle                           | San Diego         | USA
+ Francisca Cervantes     | 782 First Street                           | Philadelphia      | USA
+ Rosa Salazar            | 11328 Douglas Av.                          | Philadelphia      | USA
+ Julie Young             | 78934 Hillside Dr.                         | Pasadena          | USA
+ Michael Frick           | 2678 Kingston Rd., Suite 101               | NYC               | USA
+ Jeff Young              | 4092 Furth Circle, Suite 400               | NYC               | USA
+ Maria Hernandez         | 5905 Pompton St., Suite 750                | NYC               | USA
+ Kwai Lee                | 897 Long Airport Avenue                    | NYC               | USA
+ Yu Choi                 | 5290 North Pendale Street, Suite 200       | NYC               | USA
+ William Brown           | 7476 Moss Rd.                              | Newark            | USA
+ Leslie Murphy           | 567 North Pendale Street                   | New Haven         | USA
+ Keith Franco            | 149 Spinnaker Dr., Suite 101               | New Haven         | USA
+ Wing Huang              | 4575 Hillside Dr.                          | New Bedford       | USA
+ Violeta Benitez         | 1785 First Street                          | New Bedford       | USA
+ Dorothy Young           | 2304 Long Airport Avenue                   | Nashua            | USA
+ Brian Chandler          | 6047 Douglas Av.                           | Los Angeles       | USA
+ Jean King               | 8489 Strong St.                            | Las Vegas         | USA
+ Mary Young              | 4097 Douglas Av.                           | Glendale          | USA
+ Dan Lewis               | 2440 Pompton St.                           | Glendale          | USA
+ Marta Hernandez         | 39323 Spinnaker Dr.                        | Cambridge         | USA
+ Jerry Tseng             | 4658 Baden Av.                             | Cambridge         | USA
+ Juri Hashimoto          | 9408 Furth Circle                          | Burlingame        | USA
+ Steve Thompson          | 3675 Furth Circle                          | Burbank           | USA
+ Sue Taylor              | 2793 Furth Circle                          | Brisbane          | USA
+ Julie King              | 25593 South Bay Ln.                        | Bridgewater       | USA
+ Leslie Taylor           | 16780 Pompton St.                          | Brickhaven        | USA
+ Allen Nelson            | 7825 Douglas Av.                           | Brickhaven        | USA
+ Miguel Barajas          | 7635 Spinnaker Dr.                         | Brickhaven        | USA
+ Juri Yoshido            | 8616 Spinnaker Dr.                         | Boston            | USA
+ Valarie Franco          | 6251 Ingle Ln.                             | Boston            | USA
+ Kelvin Leong            | 7586 Pompton St.                           | Allentown         | USA
+(133 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+
+### 23.4
+- List the room number, type and the cost of staying 5 nights in each of the top 15 most expensive rooms.
+- `SELECT room_no, rate * 5 as cost_of_five_nights, room_type FROM rooms ORDER BY rate DESC, room_no ASC LIMIT 15;`
+
+<details>
+<summary>Terminal Output</summary>
+
+```
+postgres=# SELECT room_no, rate * 5 as cost_of_five_nights, room_type FROM rooms ORDER BY rate DESC, room_no ASC LIMIT 15;
+ room_no | cost_of_five_nights |  room_type
+---------+---------------------+--------------
+     308 |              615.00 | PREMIER PLUS
+     309 |              615.00 | PREMIER PLUS
+     310 |              615.00 | PREMIER PLUS
+     311 |              615.00 | PREMIER PLUS
+     312 |              615.00 | PREMIER PLUS
+     408 |              615.00 | PREMIER PLUS
+     409 |              615.00 | PREMIER PLUS
+     410 |              615.00 | PREMIER PLUS
+     411 |              615.00 | FAMILY
+     412 |              615.00 | FAMILY
+     301 |              550.00 | PREMIER
+     302 |              550.00 | PREMIER
+     303 |              550.00 | PREMIER
+     304 |              550.00 | PREMIER
+     305 |              550.00 | PREMIER
+(15 rows)
+
+
+postgres=#
+```
+
+</details><br>
+
+---
+
+## 24. Summary
+
+In this lesson you have learned the use of databases and how relational databases are structured. You've also learned how to use basic single-table query commands in SQL and some of the special 'backslash' commands in psql. You have used the SELECT command to control the columns and values that are returned, the DISTINCT, ORDER BY and LIMIT clauses to control the order and numbers of rows returned and you've used the WHERE clause to choose the rows that you access. You have learned the INSERT command to add new data to the database
+
+Next week we shall go on to more complex query constructs including joins, updates and deletes along with incorporating SQL into a node.js server.
+
+---
