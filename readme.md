@@ -4273,11 +4273,3 @@ postgres=#
 </details><br>
 
 ---
-
-## 24. Summary
-
-In this lesson you have learned the use of databases and how relational databases are structured. You've also learned how to use basic single-table query commands in SQL and some of the special 'backslash' commands in psql. You have used the SELECT command to control the columns and values that are returned, the DISTINCT, ORDER BY and LIMIT clauses to control the order and numbers of rows returned and you've used the WHERE clause to choose the rows that you access. You have learned the INSERT command to add new data to the database
-
-Next week we shall go on to more complex query constructs including joins, updates and deletes along with incorporating SQL into a node.js server.
-
----
